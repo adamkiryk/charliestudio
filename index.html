@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Charlie Studio - Mentoring</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #1a1714;
+  --surface: #23201b;
+  --surface-2: #2c2822;
+  --border: #3d3830;
+  --gold: #c9a855;
+  --gold-dim: #a08640;
+  --gold-bg: rgba(201,168,85,0.08);
+  --gold-bg-hover: rgba(201,168,85,0.14);
+  --text: #e8e0d0;
+  --text-muted: #9e9688;
+  --text-faint: #6b6358;
+  --success: #5a9a3e;
+  --success-bg: rgba(90,154,62,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 200ms ease;
+}
+
+html {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  text-align: center;
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+header .subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-top: 4px;
+}
+
+.name-section { padding: 20px 0 0; }
+.name-section label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+.text-input:focus { border-color: var(--gold-dim); }
+.text-input::placeholder { color: var(--text-faint); }
+
+.menu-header { padding: 24px 0 4px; }
+.menu-header h2 { font-size: 20px; font-weight: 700; }
+.menu-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+
+.menu-intro {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  margin: 12px 0 8px;
+  background: var(--gold-bg);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gold-dim);
+  line-height: 1.5;
+}
+
+/* Category cards */
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 0 20px;
+}
+
+.cat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  background: var(--gold-bg);
+  color: var(--gold);
+}
+
+.cat-info { flex: 1; min-width: 0; }
+.cat-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.cat-info p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+.cat-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cat-status-empty { color: var(--text-faint); background: rgba(107,99,88,0.15); }
+.cat-status-partial { color: var(--gold); background: var(--gold-bg); }
+.cat-status-done { color: var(--success); background: var(--success-bg); }
+
+/* Copy all section */
+.copy-all-section {
+  padding: 8px 0 32px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.copy-all-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.copy-all-btn.copied { background: var(--success); color: white; }
+
+.copy-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 10px;
+}
+
+.answers-count {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+.answers-count strong { color: var(--gold); }
+
+.copy-fallback {
+  width: 100%;
+  min-height: 200px;
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px;
+  font-family: monospace;
+  line-height: 1.5;
+  resize: vertical;
+  display: none;
+}
+.copy-fallback.show { display: block; }
+
+.copy-fallback-hint {
+  display: none;
+  text-align: center;
+  font-size: 12px;
+  color: var(--gold);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+.copy-fallback-hint.show { display: block; }
+
+/* HIDDEN views */
+.view { display: none; }
+.view.active { display: block; }
+
+/* Category detail view */
+.cat-view-header { padding: 20px 0 16px; }
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cat-view-header h2 { font-size: 22px; font-weight: 700; }
+.cat-view-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.q-label {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+/* Sliders */
+.slider-group { display: flex; flex-direction: column; gap: 14px; }
+
+.slider-row { display: flex; align-items: center; gap: 12px; }
+.slider-row label { font-size: 13px; color: var(--text-muted); min-width: 0; flex: 1; line-height: 1.3; }
+
+.slider-row input[type="range"] {
+  flex: 0 0 100px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+}
+
+.slider-row .slider-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 36px;
+  text-align: right;
+}
+
+.slider-sum {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  background: var(--gold-bg);
+  border-radius: var(--radius-sm);
+  margin-top: 4px;
+}
+.slider-sum.ok { color: var(--success); }
+.slider-sum.warn { color: #c9a855; }
+
+/* Checkboxes */
+.check-group { display: flex; flex-direction: column; gap: 10px; }
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.check-box {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--bg);
+}
+
+.check-item.checked .check-box {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.check-item span { font-size: 14px; line-height: 1.4; }
+
+.check-other-input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  display: none;
+}
+.check-other-input:focus { border-color: var(--gold-dim); }
+.check-other-input.show { display: block; }
+
+/* Radio */
+.radio-group { display: flex; flex-direction: column; gap: 8px; }
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.radio-dot {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-item.selected .radio-dot { border-color: var(--gold); }
+
+.radio-dot-inner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0;
+}
+
+.radio-item.selected .radio-dot-inner { opacity: 1; }
+.radio-item span { font-size: 14px; line-height: 1.4; }
+
+/* Number inputs */
+.num-group { display: flex; flex-direction: column; gap: 12px; }
+.num-row { display: flex; align-items: center; gap: 10px; }
+.num-row label { font-size: 14px; color: var(--text-muted); min-width: 60px; }
+
+.num-controls {
+  display: flex;
+  align-items: center;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.num-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.num-val {
+  min-width: 48px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0 4px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.num-unit { font-size: 13px; color: var(--text-faint); margin-left: 6px; }
+
+.cat-done-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--surface-2);
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-bottom: 32px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0 32px;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Charlie Studio</h1>
+    <div class="subtitle">MENTORING</div>
+  </header>
+
+  <!-- ===== MENU VIEW ===== -->
+  <div id="menuView" class="view active">
+    <div class="name-section">
+      <label>Twoje imie (opcjonalnie)</label>
+      <input type="text" class="text-input" id="respondentName" placeholder="np. Adam, Marcin, Antoni...">
+    </div>
+
+    <div class="menu-header">
+      <h2>Kategorie</h2>
+      <p>Wypelnij dowolne kategorie. Mozesz wracac i uzupelniac w dowolnej kolejnosci.</p>
+    </div>
+
+    <div class="menu-intro">
+      Po wypelnieniu kliknij "Skopiuj wszystkie odpowiedzi" na dole i wklej do czatu lub wyslij na WhatsApp.
+    </div>
+
+    <!-- STATIC CATEGORY CARDS - no JS needed to display -->
+    <div class="categories" id="catList">
+
+      <div class="cat-card" data-cat="instagram">
+        <div class="cat-icon">IG</div>
+        <div class="cat-info">
+          <h3>Instagram i Odbiorcy</h3>
+          <p>Kim sa Wasi obserwujacy i jak reaguja na tresci</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_instagram">Puste</span>
+      </div>
+
+      <div class="cat-card" data-cat="production">
+        <div class="cat-icon">PR</div>
+        <div class="cat-info">
+          <h3>Produkcja i Czas Pracy</h3>
+          <p>Realne godziny, kapacyt, koszty robocizny</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_production">Puste</span>
+      </div>
+
+      <div class="cat-card" data-cat="components">
+        <div class="cat-icon">KD</div>
+        <div class="cat-info">
+          <h3>Komponenty i Dostawcy</h3>
+          <p>Lancuch dostaw, lead time, powtarzalnosc</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_components">Puste</span>
+      </div>
+
+      <div class="cat-card" data-cat="marketing">
+        <div class="cat-icon">MR</div>
+        <div class="cat-info">
+          <h3>Marketing i Reklama</h3>
+          <p>Budzet, doswiadczenie, dostepny czas</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_marketing">Puste</span>
+      </div>
+
+      <div class="cat-card" data-cat="sales">
+        <div class="cat-icon">SP</div>
+        <div class="cat-info">
+          <h3>Sprzedaz i Klienci</h3>
+          <p>Dotychczasowe doswiadczenia, proces zakupowy</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_sales">Puste</span>
+      </div>
+
+      <div class="cat-card" data-cat="vision">
+        <div class="cat-icon">WP</div>
+        <div class="cat-info">
+          <h3>Wizja i Priorytety</h3>
+          <p>Gdzie widzicie firme i co jest najwazniejsze</p>
+        </div>
+        <span class="cat-status cat-status-empty" id="status_vision">Puste</span>
+      </div>
+
+    </div>
+
+    <div class="copy-all-section">
+      <div class="answers-count" id="answersCount">Wypelniono <strong>0</strong> z 20 pytan</div>
+      <button class="copy-all-btn" id="copyBtn" type="button">Skopiuj wszystkie odpowiedzi</button>
+      <div class="copy-hint">Skopiuj i wklej do czatu z mentorem</div>
+      <textarea class="copy-fallback" id="copyFallback" readonly></textarea>
+      <div class="copy-fallback-hint" id="copyFallbackHint">Tekst powyzej zostal zaznaczony. Przytrzymaj palec na tekscie i wybierz "Kopiuj", a nastepnie wklej w wiadomosci.</div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORY VIEW ===== -->
+  <div id="catView" class="view">
+    <div class="cat-view-header">
+      <button class="back-btn" id="backBtn" type="button">&lt; Wroc do kategorii</button>
+      <h2 id="catTitle"></h2>
+      <p id="catDesc"></p>
+    </div>
+    <div class="questions" id="catQuestions"></div>
+    <button class="cat-done-btn" id="doneBtn" type="button">Wroc do kategorii</button>
+  </div>
+
+  <footer>Charlie Studio 2026</footer>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var categories = [
+    {
+      id: 'instagram',
+      title: 'Instagram i Odbiorcy',
+      desc: 'Kim sa Wasi obserwujacy i jak reaguja na tresci',
+      questions: [
+        {
+          id: 'ig_breakdown',
+          type: 'slider3',
+          label: 'Z 22 000 obserwujacych na Instagramie @charlie_studio_audio, jaki masz wrazenie ile to:',
+          options: [
+            'Prawdziwi ludzie zainteresowani audio/muzyka',
+            'Martwe konta / boty / nieaktywni',
+            'Inne firmy / marki / sklepy audio'
+          ]
+        },
+        {
+          id: 'ig_engagement',
+          type: 'check',
+          label: 'Jakie posty generuja najwieksze zaangazowanie (lajki, komentarze, zapisy, DM-y)?',
+          options: [
+            'Zdjecia gotowych glosnikow (efekt koncowy)',
+            'Proces produkcji (warsztat, drewno, narzedzia)',
+            'Filmy / reelsy z brzmienia',
+            'Osobiste posty Marcina (historia, pasja)',
+            'Posty o projektach custom (renowacje, zlecenia)',
+            'Inne'
+          ]
+        },
+        {
+          id: 'ig_inquiries',
+          type: 'radio',
+          label: 'Ile razy w ostatnim roku ktos pytal przez Instagram "ile kosztuja" lub "jak kupic"?',
+          options: ['0', '1-5', '6-20', '21-50', '50+']
+        }
+      ]
+    },
+    {
+      id: 'production',
+      title: 'Produkcja i Czas Pracy',
+      desc: 'Realne godziny, kapacyt, koszty robocizny',
+      questions: [
+        {
+          id: 'prod_hours',
+          type: 'num3',
+          label: 'Ile godzin zajmuje wyprodukowanie jednej pary kazdego modelu? (lacznie: stolarnia, montaz, strojenie, testy)',
+          models: ['Django', 'Dizzy', 'Mingus'],
+          unit: 'h'
+        },
+        {
+          id: 'prod_capacity',
+          type: 'num1',
+          label: 'Ile par glosnikow jestescie w stanie zrobic miesiecznie przy obecnym obciazeniu innymi zajeciami?',
+          unit: 'par / mies.'
+        },
+        {
+          id: 'prod_rate',
+          type: 'num1',
+          label: 'Jaki powinien byc koszt godziny pracy wliczony w produkcje? (robocizna stolarska + montaz audio)',
+          unit: 'PLN / h',
+          step: 10
+        },
+        {
+          id: 'prod_bottleneck',
+          type: 'radio',
+          label: 'Co jest najwiekszym waskim gardlem w produkcji?',
+          options: [
+            'Czas Marcina (stolarnia, montaz)',
+            'Czas Antoniego (strojenie, pomiary)',
+            'Oczekiwanie na komponenty',
+            'Oczekiwanie na podwykonawcow (CNC, lakiernia)',
+            'Wszystko po trochu',
+            'Nie wiem'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'components',
+      title: 'Komponenty i Dostawcy',
+      desc: 'Lancuch dostaw, lead time, powtarzalnosc',
+      questions: [
+        {
+          id: 'comp_suppliers',
+          type: 'radio',
+          label: 'Czy komponenty audio (przetworniki, zwrotnice) kupujecie od stalych dostawcow?',
+          options: [
+            'Tak - stali dostawcy z ustalonymi cenami',
+            'Przewaznie stali, ale czasem szukamy',
+            'Za kazdym razem szukamy najlepszej oferty'
+          ]
+        },
+        {
+          id: 'comp_audio_lead',
+          type: 'radio',
+          label: 'Jaki jest typowy czas oczekiwania na kluczowe komponenty audio?',
+          options: [
+            'Do tygodnia',
+            '2-4 tygodnie',
+            '1-3 miesiace',
+            'Wiecej niz 3 miesiace'
+          ]
+        },
+        {
+          id: 'comp_wood_lead',
+          type: 'radio',
+          label: 'Jaki jest czas oczekiwania na elementy obudow od podwykonawcow (CNC, stolarnia)?',
+          options: [
+            'Do tygodnia',
+            '2-4 tygodnie',
+            '1-2 miesiace',
+            'Zalezy od obciazenia podwykonawcy'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'marketing',
+      title: 'Marketing i Reklama',
+      desc: 'Budzet, doswiadczenie, dostepny czas',
+      questions: [
+        {
+          id: 'mkt_hours',
+          type: 'num1',
+          label: 'Ile godzin tygodniowo mozecie (wszyscy lacznie) poswiecic na marketing i sprzedaz?',
+          unit: 'h / tydzien'
+        },
+        {
+          id: 'mkt_exp',
+          type: 'radio',
+          label: 'Jakie jest Wasze doswiadczenie z platna reklama online (Google Ads, Meta Ads, YouTube)?',
+          options: [
+            'Prowadzilem/am kampanie samodzielnie',
+            'Podstawowa wiedza teoretyczna',
+            'Zerowe - nigdy nie robilismy platnych reklam'
+          ]
+        },
+        {
+          id: 'mkt_budget',
+          type: 'radio',
+          label: 'Jaki miesieczny budzet na marketing jest realistyczny na start?',
+          options: [
+            '0 PLN (tylko organicznie)',
+            '500-1000 PLN / miesiac',
+            '1000-3000 PLN / miesiac',
+            '3000+ PLN / miesiac'
+          ]
+        },
+        {
+          id: 'mkt_channels',
+          type: 'check',
+          label: 'Ktore kanaly juz aktywnie prowadzicie?',
+          options: [
+            'Instagram',
+            'YouTube',
+            'Facebook',
+            'Strona www',
+            'Newsletter / mailing',
+            'Targi / eventy',
+            'Inne'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'sales',
+      title: 'Sprzedaz i Klienci',
+      desc: 'Dotychczasowe doswiadczenia, proces zakupowy',
+      questions: [
+        {
+          id: 'sales_count',
+          type: 'radio',
+          label: 'Ile par glosnikow sprzedaliscie do tej pory (lacznie)?',
+          options: [
+            '0 - jeszcze nie sprzedawalismy nowej serii',
+            '1-5 par',
+            '6-15 par',
+            '16-30 par',
+            'Wiecej niz 30 par'
+          ]
+        },
+        {
+          id: 'sales_who',
+          type: 'check',
+          label: 'Kim byli dotychczasowi kupujacy?',
+          options: [
+            'Znajomi / rodzina',
+            'Obserwujacy z Instagrama',
+            'Klienci z polecen',
+            'Muzycy / profesjonalisci audio',
+            'Architekci / projektanci wnetrz',
+            'Klienci biznesowi (restauracje, kawiarnie)',
+            'Jeszcze nie mielismy klientow',
+            'Inne'
+          ]
+        },
+        {
+          id: 'sales_objections',
+          type: 'check',
+          label: 'Jakie obiekcje najczesciej slyszycie od potencjalnych klientow?',
+          options: [
+            'Za drogo',
+            'Nie znamy tej marki',
+            'Jak brzmi w porownaniu do [znana marka]?',
+            'Gdzie mozna ich osluchac?',
+            'Jak wyglada gwarancja / serwis?',
+            'Jak dlugo trzeba czekac?',
+            'Nie slyszelismy jeszcze obiekcji',
+            'Inne'
+          ]
+        }
+      ]
+    },
+    {
+      id: 'vision',
+      title: 'Wizja i Priorytety',
+      desc: 'Gdzie widzicie firme i co jest najwazniejsze',
+      questions: [
+        {
+          id: 'vis_priority',
+          type: 'radio',
+          label: 'Co jest najwazniejsze dla Charlie Studio na najblizsze 6 miesiecy?',
+          options: [
+            'Skonczyc prototypy i uruchomic sprzedaz',
+            'Zbudowac rozpoznawalnosc marki',
+            'Zdobyc pierwszych 10 platnych klientow',
+            'Ulozyc proces produkcji (powtarzalnosc)',
+            'Sprawdzic czy jest popyt na nasze produkty'
+          ]
+        },
+        {
+          id: 'vis_risk',
+          type: 'radio',
+          label: 'Co Was najbardziej niepokoi?',
+          options: [
+            'Nie wiemy czy ktos kupi za te ceny',
+            'Nie mamy czasu - kazdy ma inne glowne zajecie',
+            'Brak doswiadczenia w sprzedazy i marketingu',
+            'Grant sie skonczy a my nie bedziemy gotowi',
+            'Cos innego'
+          ]
+        },
+        {
+          id: 'vis_free',
+          type: 'text',
+          label: 'Czy jest cos waznego, o czym mentor powinien wiedziec, a o co nie zapytal?',
+          placeholder: 'Wpisz tutaj cokolwiek istotne...'
+        }
+      ]
+    }
+  ];
+
+  var answers = {};
+  var totalQuestions = 20;
+
+  function setAnswer(id, val) {
+    answers[id] = val;
+    updateStatuses();
+  }
+
+  function getCatStatus(cat) {
+    var answered = 0;
+    for (var i = 0; i < cat.questions.length; i++) {
+      var a = answers[cat.questions[i].id];
+      if (a !== undefined && a !== null && a !== '') {
+        if (Array.isArray(a)) {
+          if (a.length > 0) answered++;
+        } else {
+          answered++;
+        }
+      }
+    }
+    if (answered === 0) return 'empty';
+    if (answered >= cat.questions.length) return 'done';
+    return 'partial';
+  }
+
+  function updateStatuses() {
+    var answeredQ = 0;
+    for (var c = 0; c < categories.length; c++) {
+      var cat = categories[c];
+      var el = document.getElementById('status_' + cat.id);
+      if (el) {
+        var s = getCatStatus(cat);
+        el.className = 'cat-status cat-status-' + s;
+        el.textContent = s === 'done' ? 'Gotowe' : s === 'partial' ? 'W trakcie' : 'Puste';
+      }
+      for (var q = 0; q < cat.questions.length; q++) {
+        var a = answers[cat.questions[q].id];
+        if (a !== undefined && a !== null && a !== '' && !(Array.isArray(a) && a.length === 0)) {
+          answeredQ++;
+        }
+      }
+    }
+    var countEl = document.getElementById('answersCount');
+    if (countEl) {
+      countEl.innerHTML = 'Wypelniono <strong>' + answeredQ + '</strong> z ' + totalQuestions + ' pytan';
+    }
+  }
+
+  function openCategory(catId) {
+    var cat = null;
+    for (var i = 0; i < categories.length; i++) {
+      if (categories[i].id === catId) { cat = categories[i]; break; }
+    }
+    if (!cat) return;
+
+    document.getElementById('menuView').className = 'view';
+    document.getElementById('catView').className = 'view active';
+    document.getElementById('catTitle').textContent = cat.title;
+    document.getElementById('catDesc').textContent = cat.desc;
+
+    var container = document.getElementById('catQuestions');
+    container.innerHTML = '';
+
+    for (var q = 0; q < cat.questions.length; q++) {
+      var qData = cat.questions[q];
+      var card = document.createElement('div');
+      card.className = 'q-card';
+
+      var label = document.createElement('div');
+      label.className = 'q-label';
+      label.textContent = qData.label;
+      card.appendChild(label);
+
+      card.appendChild(buildQuestion(qData));
+      container.appendChild(card);
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+  function goToMenu() {
+    document.getElementById('catView').className = 'view';
+    document.getElementById('menuView').className = 'view active';
+    updateStatuses();
+    window.scrollTo(0, 0);
+  }
+
+  function buildQuestion(q) {
+    switch (q.type) {
+      case 'slider3': return buildSlider3(q);
+      case 'check': return buildCheck(q);
+      case 'radio': return buildRadio(q);
+      case 'num3': return buildNum3(q);
+      case 'num1': return buildNum1(q);
+      case 'text': return buildText(q);
+    }
+    return document.createElement('div');
+  }
+
+  function buildSlider3(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'slider-group';
+    var vals = answers[q.id] || [34, 33, 33];
+    if (!answers[q.id]) answers[q.id] = [34, 33, 33];
+
+    var sliders = [];
+    var valEls = [];
+    var sumEl = document.createElement('div');
+
+    function updateSum() {
+      var s = vals[0] + vals[1] + vals[2];
+      sumEl.textContent = 'Suma: ' + s + '%';
+      sumEl.className = 'slider-sum ' + (s === 100 ? 'ok' : 'warn');
+    }
+
+    for (var i = 0; i < q.options.length; i++) {
+      (function(idx) {
+        var row = document.createElement('div');
+        row.className = 'slider-row';
+
+        var lbl = document.createElement('label');
+        lbl.textContent = q.options[idx];
+
+        var sl = document.createElement('input');
+        sl.type = 'range';
+        sl.min = '0';
+        sl.max = '100';
+        sl.value = String(vals[idx]);
+        sliders.push(sl);
+
+        var valEl = document.createElement('span');
+        valEl.className = 'slider-val';
+        valEl.textContent = vals[idx] + '%';
+        valEls.push(valEl);
+
+        sl.addEventListener('input', function() {
+          var nv = parseInt(sl.value);
+          var ov = vals[idx];
+          var diff = nv - ov;
+          vals[idx] = nv;
+
+          var others = [];
+          for (var x = 0; x < 3; x++) { if (x !== idx) others.push(x); }
+
+          var otherSum = vals[others[0]] + vals[others[1]];
+          if (otherSum > 0) {
+            var r = vals[others[0]] / otherSum;
+            vals[others[0]] = Math.max(0, Math.round(vals[others[0]] - diff * r));
+            vals[others[1]] = Math.max(0, 100 - vals[idx] - vals[others[0]]);
+          } else {
+            vals[others[0]] = Math.max(0, Math.round((100 - nv) / 2));
+            vals[others[1]] = Math.max(0, 100 - nv - vals[others[0]]);
+          }
+
+          for (var j = 0; j < 3; j++) {
+            sliders[j].value = String(vals[j]);
+            valEls[j].textContent = vals[j] + '%';
+          }
+          answers[q.id] = vals.slice();
+          updateSum();
+        });
+
+        row.appendChild(lbl);
+        row.appendChild(sl);
+        row.appendChild(valEl);
+        wrap.appendChild(row);
+      })(i);
+    }
+
+    updateSum();
+    wrap.appendChild(sumEl);
+    return wrap;
+  }
+
+  function buildCheck(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'check-group';
+    if (!answers[q.id]) answers[q.id] = [];
+    var current = answers[q.id];
+
+    for (var i = 0; i < q.options.length; i++) {
+      (function(opt) {
+        var item = document.createElement('div');
+        item.className = 'check-item' + (current.indexOf(opt) !== -1 ? ' checked' : '');
+
+        var box = document.createElement('div');
+        box.className = 'check-box';
+        box.textContent = current.indexOf(opt) !== -1 ? 'V' : '';
+
+        var span = document.createElement('span');
+        span.textContent = opt;
+
+        item.appendChild(box);
+        item.appendChild(span);
+
+        var isOther = (opt === 'Inne');
+        var otherInput = null;
+
+        if (isOther) {
+          otherInput = document.createElement('input');
+          otherInput.type = 'text';
+          otherInput.className = 'check-other-input' + (current.indexOf('Inne') !== -1 ? ' show' : '');
+          otherInput.placeholder = 'Opisz...';
+          otherInput.value = answers[q.id + '_other'] || '';
+          otherInput.addEventListener('input', function() {
+            answers[q.id + '_other'] = otherInput.value;
+          });
+          otherInput.addEventListener('click', function(e) { e.stopPropagation(); });
+        }
+
+        item.addEventListener('click', function() {
+          var arr = answers[q.id];
+          var pos = arr.indexOf(opt);
+          if (pos === -1) {
+            arr.push(opt);
+            item.className = 'check-item checked';
+            box.textContent = 'V';
+          } else {
+            arr.splice(pos, 1);
+            item.className = 'check-item';
+            box.textContent = '';
+          }
+          answers[q.id] = arr;
+          if (otherInput) {
+            otherInput.className = arr.indexOf('Inne') !== -1 ? 'check-other-input show' : 'check-other-input';
+          }
+          updateStatuses();
+        });
+
+        wrap.appendChild(item);
+        if (otherInput) wrap.appendChild(otherInput);
+      })(q.options[i]);
+    }
+
+    return wrap;
+  }
+
+  function buildRadio(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'radio-group';
+    var current = answers[q.id];
+    var items = [];
+
+    for (var i = 0; i < q.options.length; i++) {
+      (function(opt) {
+        var item = document.createElement('div');
+        item.className = 'radio-item' + (current === opt ? ' selected' : '');
+
+        var dot = document.createElement('div');
+        dot.className = 'radio-dot';
+        var inner = document.createElement('div');
+        inner.className = 'radio-dot-inner';
+        dot.appendChild(inner);
+
+        var span = document.createElement('span');
+        span.textContent = opt;
+
+        item.appendChild(dot);
+        item.appendChild(span);
+
+        item.addEventListener('click', function() {
+          for (var j = 0; j < items.length; j++) {
+            items[j].className = 'radio-item';
+          }
+          item.className = 'radio-item selected';
+          setAnswer(q.id, opt);
+        });
+
+        items.push(item);
+        wrap.appendChild(item);
+      })(q.options[i]);
+    }
+
+    return wrap;
+  }
+
+  function buildNum3(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'num-group';
+    var vals = answers[q.id] || [0, 0, 0];
+    if (!answers[q.id]) answers[q.id] = [0, 0, 0];
+
+    for (var i = 0; i < q.models.length; i++) {
+      (function(idx) {
+        var row = document.createElement('div');
+        row.className = 'num-row';
+
+        var lbl = document.createElement('label');
+        lbl.textContent = q.models[idx];
+
+        var controls = document.createElement('div');
+        controls.className = 'num-controls';
+
+        var minus = document.createElement('button');
+        minus.className = 'num-btn';
+        minus.textContent = '-';
+        minus.type = 'button';
+
+        var valEl = document.createElement('div');
+        valEl.className = 'num-val';
+        valEl.textContent = String(vals[idx]);
+
+        var plus = document.createElement('button');
+        plus.className = 'num-btn';
+        plus.textContent = '+';
+        plus.type = 'button';
+
+        var unit = document.createElement('span');
+        unit.className = 'num-unit';
+        unit.textContent = q.unit;
+
+        minus.addEventListener('click', function() {
+          if (vals[idx] > 0) { vals[idx]--; valEl.textContent = String(vals[idx]); answers[q.id] = vals.slice(); updateStatuses(); }
+        });
+        plus.addEventListener('click', function() {
+          vals[idx]++; valEl.textContent = String(vals[idx]); answers[q.id] = vals.slice(); updateStatuses();
+        });
+
+        controls.appendChild(minus);
+        controls.appendChild(valEl);
+        controls.appendChild(plus);
+        row.appendChild(lbl);
+        row.appendChild(controls);
+        row.appendChild(unit);
+        wrap.appendChild(row);
+      })(i);
+    }
+
+    return wrap;
+  }
+
+  function buildNum1(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'num-group';
+    var val = answers[q.id] || 0;
+    if (!answers[q.id]) answers[q.id] = 0;
+    var step = q.step || 1;
+
+    var row = document.createElement('div');
+    row.className = 'num-row';
+
+    var controls = document.createElement('div');
+    controls.className = 'num-controls';
+
+    var minus = document.createElement('button');
+    minus.className = 'num-btn';
+    minus.textContent = '-';
+    minus.type = 'button';
+
+    var valEl = document.createElement('div');
+    valEl.className = 'num-val';
+    valEl.textContent = String(val);
+
+    var plus = document.createElement('button');
+    plus.className = 'num-btn';
+    plus.textContent = '+';
+    plus.type = 'button';
+
+    var unit = document.createElement('span');
+    unit.className = 'num-unit';
+    unit.textContent = q.unit;
+
+    minus.addEventListener('click', function() {
+      var v = answers[q.id];
+      if (v >= step) { v -= step; answers[q.id] = v; valEl.textContent = String(v); updateStatuses(); }
+    });
+    plus.addEventListener('click', function() {
+      var v = answers[q.id];
+      v += step; answers[q.id] = v; valEl.textContent = String(v); updateStatuses();
+    });
+
+    controls.appendChild(minus);
+    controls.appendChild(valEl);
+    controls.appendChild(plus);
+    row.appendChild(controls);
+    row.appendChild(unit);
+    wrap.appendChild(row);
+    return wrap;
+  }
+
+  function buildText(q) {
+    var wrap = document.createElement('div');
+    var ta = document.createElement('textarea');
+    ta.className = 'text-input';
+    ta.placeholder = q.placeholder || '';
+    ta.rows = 3;
+    ta.style.resize = 'vertical';
+    ta.value = answers[q.id] || '';
+    ta.addEventListener('input', function() {
+      setAnswer(q.id, ta.value);
+    });
+    wrap.appendChild(ta);
+    return wrap;
+  }
+
+  function buildTextOutput() {
+    var name = document.getElementById('respondentName').value.trim();
+    var now = new Date();
+    var date = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear() + ' ' + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+
+    var text = '=== CHARLIE STUDIO - FORMULARZ MENTORSKI ===\n';
+    if (name) text += 'Wypelniono przez: ' + name + '\n';
+    text += 'Data: ' + date + '\n\n';
+
+    for (var c = 0; c < categories.length; c++) {
+      var cat = categories[c];
+      var s = getCatStatus(cat);
+      if (s === 'empty') continue;
+
+      text += '--- ' + cat.title.toUpperCase() + ' ---\n\n';
+
+      for (var qi = 0; qi < cat.questions.length; qi++) {
+        var q = cat.questions[qi];
+        var a = answers[q.id];
+        if (a === undefined || a === null || a === '') continue;
+        if (Array.isArray(a) && a.length === 0) continue;
+
+        text += q.label + '\n';
+
+        if (q.type === 'slider3') {
+          for (var si = 0; si < q.options.length; si++) {
+            text += '  ' + q.options[si] + ': ' + a[si] + '%\n';
+          }
+        } else if (q.type === 'check') {
+          for (var ci = 0; ci < a.length; ci++) {
+            if (a[ci] === 'Inne' && answers[q.id + '_other']) {
+              text += '  - Inne: ' + answers[q.id + '_other'] + '\n';
+            } else {
+              text += '  - ' + a[ci] + '\n';
+            }
+          }
+        } else if (q.type === 'radio') {
+          text += '  > ' + a + '\n';
+        } else if (q.type === 'num3') {
+          for (var ni = 0; ni < q.models.length; ni++) {
+            text += '  ' + q.models[ni] + ': ' + a[ni] + ' ' + q.unit + '\n';
+          }
+        } else if (q.type === 'num1') {
+          text += '  > ' + a + ' ' + q.unit + '\n';
+        } else if (q.type === 'text') {
+          text += '  > ' + a + '\n';
+        }
+        text += '\n';
+      }
+    }
+
+    text += '=== KONIEC FORMULARZA ===';
+    return text;
+  }
+
+  function showFallback(text) {
+    var btn = document.getElementById('copyBtn');
+    var fallback = document.getElementById('copyFallback');
+    var fallbackHint = document.getElementById('copyFallbackHint');
+
+    btn.textContent = 'Zaznacz tekst ponizej i skopiuj recznie';
+    btn.className = 'copy-all-btn copied';
+    setTimeout(function() { btn.textContent = 'Skopiuj wszystkie odpowiedzi'; btn.className = 'copy-all-btn'; }, 3000);
+
+    fallback.value = text;
+    fallback.className = 'copy-fallback show';
+    fallbackHint.className = 'copy-fallback-hint show';
+
+    setTimeout(function() {
+      fallback.focus();
+      fallback.select();
+      try { fallback.setSelectionRange(0, text.length); } catch(e) {}
+    }, 100);
+  }
+
+  function copyAll() {
+    var text = buildTextOutput();
+    var btn = document.getElementById('copyBtn');
+    var fallback = document.getElementById('copyFallback');
+    var fallbackHint = document.getElementById('copyFallbackHint');
+
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Skopiowano!';
+        btn.className = 'copy-all-btn copied';
+        fallback.className = 'copy-fallback';
+        fallbackHint.className = 'copy-fallback-hint';
+        setTimeout(function() { btn.textContent = 'Skopiuj wszystkie odpowiedzi'; btn.className = 'copy-all-btn'; }, 2500);
+      }, function() {
+        showFallback(text);
+      });
+    } else {
+      showFallback(text);
+    }
+  }
+
+  // ============ INIT ============
+  // Attach click to STATIC category cards
+  var cards = document.querySelectorAll('.cat-card');
+  for (var i = 0; i < cards.length; i++) {
+    (function(card) {
+      card.addEventListener('click', function() {
+        openCategory(card.getAttribute('data-cat'));
+      });
+    })(cards[i]);
+  }
+
+  document.getElementById('backBtn').addEventListener('click', goToMenu);
+  document.getElementById('doneBtn').addEventListener('click', goToMenu);
+  document.getElementById('copyBtn').addEventListener('click', copyAll);
+
+  updateStatuses();
+
+})();
+</script>
+
+</body>
+</html>
