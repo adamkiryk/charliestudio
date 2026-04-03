@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charlie Studio — Strategia 2026</title>
+<style>
+:root {
+  --bg: #0f0e0c;
+  --surface: #1a1814;
+  --surface-2: #222019;
+  --border: #2e2b24;
+  --gold: #c9a855;
+  --gold-dim: #8b6914;
+  --gold-bg: rgba(201,168,85,0.08);
+  --text: #e8e0d0;
+  --text-muted: #9e9688;
+  --text-faint: #5a5548;
+  --green: #5a9a3e;
+  --green-bg: rgba(90,154,62,0.1);
+  --red: #a13544;
+  --red-bg: rgba(161,53,68,0.1);
+  --teal: #01696f;
+  --teal-bg: rgba(1,105,111,0.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* SIDEBAR NAV */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 260px;
+  height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 24px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 0 24px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.sidebar-logo h1 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.sidebar-logo p {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+.sidebar-logo .updated {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 6px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.nav-section {
+  padding: 6px 24px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.nav-item {
+  display: block;
+  padding: 8px 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: var(--gold-bg);
+}
+
+.nav-item .dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: var(--border);
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+.nav-item.done .dot { background: var(--green); }
+.nav-item.warn .dot { background: var(--gold); }
+.nav-item.todo .dot { background: var(--text-faint); }
+
+/* MOBILE HEADER */
+.mobile-header {
+  display: none;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  z-index: 200;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-header h1 { font-size: 15px; font-weight: 700; }
+.mobile-header p { font-size: 10px; letter-spacing: 2px; color: var(--gold); }
+
+.menu-toggle {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* MAIN CONTENT */
+.main {
+  margin-left: 260px;
+  min-height: 100vh;
+}
+
+.content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* SECTIONS */
+.section {
+  margin-bottom: 64px;
+  scroll-margin-top: 32px;
+}
+
+.section-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.badge-analysis { background: var(--teal-bg); color: var(--teal); border: 1px solid rgba(1,105,111,0.3); }
+.badge-strategy { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(201,168,85,0.2); }
+.badge-action { background: var(--green-bg); color: var(--green); border: 1px solid rgba(90,154,62,0.3); }
+.badge-warning { background: var(--red-bg); color: var(--red); border: 1px solid rgba(161,53,68,0.3); }
+.badge-method { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+
+.section h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 24px 0 10px;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+p { margin-bottom: 12px; color: var(--text); font-size: 15px; }
+
+strong { color: var(--text); font-weight: 700; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-body {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.card-body p { color: var(--text-muted); font-size: 14px; margin-bottom: 6px; }
+.card-body p:last-child { margin-bottom: 0; }
+
+/* METRICS GRID */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.metric-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.2;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* STATUS TAGS */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.tag-green { background: var(--green-bg); color: var(--green); }
+.tag-red { background: var(--red-bg); color: var(--red); }
+.tag-gold { background: var(--gold-bg); color: var(--gold); }
+.tag-muted { background: var(--surface-2); color: var(--text-muted); }
+
+/* ALERT BOXES */
+.alert {
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid;
+}
+
+.alert-warning { background: var(--red-bg); border-color: var(--red); color: var(--text); }
+.alert-insight { background: var(--gold-bg); border-color: var(--gold); color: var(--text); }
+.alert-action { background: var(--green-bg); border-color: var(--green); color: var(--text); }
+.alert-info { background: var(--teal-bg); border-color: var(--teal); color: var(--text); }
+
+.alert strong { font-weight: 700; }
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+th {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface); }
+
+/* FUNNEL */
+.funnel {
+  margin: 20px 0;
+}
+
+.funnel-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.funnel-step:last-child { border-bottom: none; }
+
+.funnel-num {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.funnel-content h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: var(--text); text-transform: none; letter-spacing: 0; }
+.funnel-content p { margin: 0; font-size: 13px; color: var(--text-muted); }
+
+/* LIST */
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 6px; font-size: 14px; color: var(--text); line-height: 1.6; }
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+
+/* QUOTE */
+blockquote {
+  border-left: 3px solid var(--gold);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: var(--gold-bg);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* CONTENT MIX */
+.mix-bar {
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  margin: 12px 0 6px;
+}
+
+.mix-segment {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.mix-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mix-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mix-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* HEADER */
+.page-header {
+  background: linear-gradient(180deg, var(--surface) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 40px 36px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.page-header .eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.page-header p {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin-bottom: 20px;
+}
+
+.header-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header-meta span {
+  font-size: 12px;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* MOBILE OVERLAY */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 99;
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  .mobile-header { display: flex; }
+  .main { margin-left: 0; }
+  .page-header { padding: 24px 20px; }
+  .page-header h1 { font-size: 26px; }
+  .content { padding: 24px 20px 60px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 420px) {
+  .metrics { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header" id="mobileHeader">
+  <div>
+    <h1>Charlie Studio</h1>
+    <p>STRATEGIA 2026</p>
+  </div>
+  <button class="menu-toggle" id="menuToggle">Menu</button>
+</div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>Charlie Studio</h1>
+    <p>STRATEGIA 2026</p>
+    <div class="updated">Zaktualizowano: 3 kwietnia 2026</div>
+  </div>
+
+  <div class="nav-section">Status projektu</div>
+  <a href="#status" class="nav-item done"><span class="dot"></span>Aktualny stan</a>
+
+  <div class="nav-section">Analiza</div>
+  <a href="#instagram" class="nav-item done"><span class="dot"></span>Instagram — Audit</a>
+  <a href="#instagram-strategy" class="nav-item done"><span class="dot"></span>Instagram — Strategia</a>
+  <a href="#funnel" class="nav-item done"><span class="dot"></span>Lejek sprzedazowy</a>
+
+  <div class="nav-section">Biznes</div>
+  <a href="#business" class="nav-item done"><span class="dot"></span>Dane firmy</a>
+  <a href="#pricing" class="nav-item done"><span class="dot"></span>Ceny i marze</a>
+  <a href="#capacity" class="nav-item done"><span class="dot"></span>Kapacyt i zespol</a>
+
+  <div class="nav-section">Moduly mentoringu</div>
+  <a href="#module1" class="nav-item warn"><span class="dot"></span>M1: Kim jest klient?</a>
+  <a href="#module2" class="nav-item warn"><span class="dot"></span>M2: Pozycjonowanie</a>
+  <a href="#module3" class="nav-item todo"><span class="dot"></span>M3: Jeden kanal</a>
+  <a href="#module4" class="nav-item todo"><span class="dot"></span>M4: Proces sprzedazy</a>
+  <a href="#module5" class="nav-item done"><span class="dot"></span>M5: Liczby</a>
+  <a href="#module6" class="nav-item todo"><span class="dot"></span>M6: Skalowanie</a>
+
+  <div class="nav-section">Akcje</div>
+  <a href="#actions" class="nav-item warn"><span class="dot"></span>Priorytety na teraz</a>
+  <a href="#quarterly" class="nav-item done"><span class="dot"></span>Kwartalny audit IG</a>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">DOKUMENT STRATEGICZNY</div>
+    <h1>Charlie Studio<br>Strategia 2026</h1>
+    <p>Kondensat mentoringu biznesowego — analizy, wnioski i priorytety dla Marcina, Antoniego i Adama.</p>
+    <div class="header-meta">
+      <span>Autor: Adam Kiryk + Perplexity</span>
+      <span>Aktualizacja: kwiecien 2026</span>
+      <span>Status: <span style="color:var(--gold)">W trakcie</span></span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATUS -->
+    <div class="section" id="status">
+      <span class="section-badge badge-analysis">Stan operacyjny</span>
+      <h2>Gdzie jestesmy teraz</h2>
+      <div class="section-desc">Obiektywna ocena aktualnej sytuacji Charlie Studio — punkt startowy przed wdrozeniem strategii.</div>
+
+      <div class="alert alert-insight">
+        <strong>Glowna teza:</strong> Charlie Studio ma swietny produkt, swietna spolecznosc i zaangazowany Instagram. Brakuje architektury sprzedazowej — czyli mechanizmu, ktory prowadzi zainteresowanego czlowieka od "lubie to" do "kupuje to".
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-val">22 200+</div>
+          <div class="metric-label">Obserwujacych na IG</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">6–8%</div>
+          <div class="metric-label">Engagement rate (benchmark 2,5%)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">7–8</div>
+          <div class="metric-label">Par max. miesiecznie</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">3</div>
+          <div class="metric-label">Osoby w zespole (wszyscy part-time)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">~40–50%</div>
+          <div class="metric-label">Docelowa marza (bez robocizny)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">5 par</div>
+          <div class="metric-label">Cel startowy / miesiac</div>
+        </div>
+      </div>
+
+      <h3>Waskies gardla (zidentyfikowane)</h3>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-red">Krytyczne</span> Brak robocizny w kosztorysach</div>
+        <div class="card-body"><p>Koszt materialow: Django ~1 897 PLN, Dizzy ~3 934 PLN, Mingus ~5 015 PLN. Godziny pracy nie sa wliczone — realna marza jest znacznie nizsza niz zakladana. To jest najwazniejsza luka liczbowa do wypelnienia.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-red">Krytyczne</span> Brak mechanizmu konwersji na IG</div>
+        <div class="card-body"><p>22 000 obserwujacych, ale brak CTA, brak cen w postach, bio opisuje stary model biznesu. Instagram generuje zaangazowanie, ale nie generuje pytan o zakup.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-gold">Wazne</span> Kazdy z trojki ma inne glowne zajecie</div>
+        <div class="card-body"><p>Marcin: stolarnia. Antoni: Lampizator. Adam: architekt w Szwajcarii. Kapacyt firmy jest ograniczony nie finansowo, ale czasowo. Strategia musi byc zaprojektowana pod minimalny naklad czasu.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-gold">Wazne</span> Instagram jeszcze niezaktualizowany</div>
+        <div class="card-body"><p>Bio, highlights, opis produktow — wszystko pochodzi ze starszej wersji dzialnosci Marcina. Nie odzwierciedla aktualnego produktu ani celu biznesowego.</p></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- INSTAGRAM AUDIT -->
+    <div class="section" id="instagram">
+      <span class="section-badge badge-analysis">Analiza</span>
+      <h2>Instagram — Audit</h2>
+      <div class="section-desc">Obiektywna analiza profilu @charlie_studio_audio na podstawie publicznie dostepnych danych. Przeprowadzona: kwiecien 2026.</div>
+
+      <h3>Dane profilu</h3>
+      <table>
+        <tr><th>Metryka</th><th>Wartosc</th><th>Ocena</th></tr>
+        <tr><td>Obserwujacy</td><td>22 200+</td><td><span class="tag tag-green">Swietne</span></td></tr>
+        <tr><td>Engagement rate (est.)</td><td>6–8%</td><td><span class="tag tag-green">2x powyzej benchmarku</span></td></tr>
+        <tr><td>Czestotliwosc postow</td><td>~1 / miesiac</td><td><span class="tag tag-red">Za niska</span></td></tr>
+        <tr><td>Bio — aktualnosc</td><td>Opisuje renowacje vintage</td><td><span class="tag tag-red">Nieaktualne</span></td></tr>
+        <tr><td>CTA w postach</td><td>Brak</td><td><span class="tag tag-red">Brakuje</span></td></tr>
+        <tr><td>Highlights</td><td>Brak / niezoptymalizowane</td><td><span class="tag tag-red">Brakuje</span></td></tr>
+        <tr><td>Hashtagi</td><td>Generyczne (#hifi #speakers)</td><td><span class="tag tag-gold">Poprawic</span></td></tr>
+      </table>
+
+      <h3>Analiza ostatnich 12 postow</h3>
+      <table>
+        <tr><th>Post</th><th>Lajki</th><th>Typ</th><th>Wniosek</th></tr>
+        <tr><td>Onken 360 + Altec (gru 2025)</td><td>~1 500</td><td>Foto</td><td>Efektowne zdjecie = najwyzsze zaangazowanie</td></tr>
+        <tr><td>Onken 360 + Vitavox (lis 2025)</td><td>1 028</td><td>Foto</td><td>Gotowy produkt, zdjecie studyjne</td></tr>
+        <tr><td>Mingus u klienta (wrz 2025)</td><td>315</td><td>Reel</td><td>Reel slabszy niz zdjecia — odbiorcy woleli statyczne</td></tr>
+        <tr><td>TELEWATT (lip 2025)</td><td>599</td><td>Foto</td><td>Gotowy produkt</td></tr>
+        <tr><td>Mingus showcase (cze 2025)</td><td>829</td><td>Foto</td><td>Mocne zdjecie produktowe</td></tr>
+        <tr><td>Philips CD104 — Birdhouse (mar 2026)</td><td>92</td><td>Foto</td><td>Kolaboracja, slabszy wynik</td></tr>
+      </table>
+
+      <div class="alert alert-insight">
+        <strong>Kluczowy wzorzec:</strong> Im bardziej efektowne zdjecie gotowego produktu, tym wyzsze zaangazowanie. Reelsy i kolaboracje wypadaja gorzej. Odbiorcy Charlie Studio to starsi mezczyzi — audiofile, ktorzy zatrzymuja sie na pieknym zdjeciu i ogladaja detale. Nie "konsumuja" tresci jak uzytkownicy TikToka.
+      </div>
+
+      <h3>5 krytycznych obserwacji</h3>
+
+      <div class="card">
+        <div class="card-title"><span class="tag tag-red">Problem 1</span> Swietne zaangazowanie, zerowa konwersja</div>
+        <div class="card-body"><p>6–8% engagement rate to wynik, za ktory marki placilyby duze pieniadze. Ale zaangazowanie to lajki — nie zapytania, nie sprzedaz. Brak mechanizmu konwersji = Instagram jest galeria, nie narzedziem sprzedazowym.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-red">Problem 2</span> Bio opisuje stary biznes</div>
+        <div class="card-body"><p>Obecne: "I renovate and sell vintage audio equipment." — opisuje model sprzed Charlie Studio. Kazdy nowy obserwujacy dostaje falszywy sygnal: mysli, ze to sklep z uzywanymi glosnikami, nie producent wlasnych.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-red">Problem 3</span> Zero call-to-action</div>
+        <div class="card-body"><p>Zaden post nie mowi wprost: "to jest do kupienia", "napisz DM z pytaniem o cene", "link w bio". Bez CTA 70% zainteresowanych osob nie podejmuje zadnego dzialania (zrodlo: Sprout Social).</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-gold">Problem 4</span> Hashtagi sa generyczne</div>
+        <div class="card-body"><p>#hifi #audiophile #speakers — uzywane przez miliony postow. Nikt szukajacy glosnikow do kupienia nie trafi na Charlie Studio przez te tagi. Brakuje niszowych i zakupowych: #handmade_speakers, #boutique_audio, #bespoke_speakers.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="tag tag-green">Obserwacja 5</span> Reposty przez DeVore Fidelity — miedzynarodowy zasieg</div>
+        <div class="card-body"><p>Profil byl repostowany przez DeVore Fidelity (47 000 obserwujacych, NYC, glosniki 3 000–30 000 USD). To jest dowod, ze jakosc pracy jest rozpoznawana w segmencie premium na poziomie miedzynarodowym.</p></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- INSTAGRAM STRATEGY -->
+    <div class="section" id="instagram-strategy">
+      <span class="section-badge badge-strategy">Strategia</span>
+      <h2>Instagram — Strategia "Authentic Growth"</h2>
+      <div class="section-desc">Model wzrostu, ktory zachowuje autentycznosc i dodaje cichy mechanizm sprzedazowy. Zaprojektowany pod realia zespolu 3 osob z ograniczonym czasem.</div>
+
+      <h3>Decyzja brandingowa</h3>
+      <div class="alert alert-action">
+        <strong>Przyjete zalozenie:</strong> Charlie Studio to marka (brand), Marcin jest twarzą — nie odwrotnie. Cel: zbudowac rozpoznawalnosc marki, ktora jest niezalezna od jednej osoby i skalowalna.
+      </div>
+
+      <h3>Model 70/30 — zachowac dusze, dodac sprzedaz</h3>
+      <p>Nie zmieniamy tego, co dziala. Dodajemy warstwe, ktora prowadzi zainteresowanych do zakupu — bez nachalnosci.</p>
+
+      <div class="mix-bar">
+        <div class="mix-segment" style="width:70%;background:var(--gold)"></div>
+        <div class="mix-segment" style="width:30%;background:var(--teal)"></div>
+      </div>
+      <div class="mix-legend">
+        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--gold)"></div><span>70% — Tresci obecne (bez zmian)</span></div>
+        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--teal)"></div><span>30% — Nowe warstwy sprzedazowe</span></div>
+      </div>
+
+      <table>
+        <tr><th>70% — bez zmian</th><th>30% — nowe warstwy</th></tr>
+        <tr><td>Zdjecia gotowych glosnikow</td><td>1x/mies: produkt + cena (jedna linijka)</td></tr>
+        <tr><td>Renowacje vintage</td><td>1x/2 mies: Mingus/Dizzy u nowego wlasciciela</td></tr>
+        <tr><td>Winyle, muzyka, nastroej warsztatu</td><td>1x/mies: Reel z brzmieniem + hashtag zakupowy</td></tr>
+        <tr><td>Kolaboracje, reposty</td><td>Ad hoc Story "available now" gdy wolny slot</td></tr>
+      </table>
+
+      <h3>3 konkretne zmiany — zero kosztow, 1 godzina roboty</h3>
+
+      <div class="card">
+        <div class="card-title"><span class="tag tag-green">Zmiana 1</span> Bio — przepisac (5 minut)</div>
+        <div class="card-body">
+          <p><strong>Obecne:</strong> "I renovate and sell vintage audio equipment. DM, if you want to find perfect sound..."</p>
+          <p><strong>Proponowane:</strong></p>
+          <p style="font-family:monospace;background:var(--surface-2);padding:10px;border-radius:6px;color:var(--gold)">Handmade hi-fi speakers. Warsaw.<br>Django · Dizzy · Mingus<br>DM for pricing & availability</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="tag tag-green">Zmiana 2</span> Highlights — stworzyc 3 (1 godzina)</div>
+        <div class="card-body">
+          <p><strong>Speakers</strong> — najlepsze zdjecia Django, Dizzy, Mingus z krotkim opisem modelu</p>
+          <p><strong>Sound</strong> — najlepsze Reelsy z brzmieniem</p>
+          <p><strong>Workshop</strong> — backstage, produkcja, detale rzemiosla</p>
+          <p style="color:var(--text-faint);font-size:12px;margin-top:8px">Nie ma tu nic sprzedazowego. Ale nowy obserwujacy w 2 minuty rozumie cala marke.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="tag tag-green">Zmiana 3</span> CTA w postach — jedna linijka</div>
+        <div class="card-body">
+          <p>Nie do kazdego posta. Tylko do postow z gotowym produktem — na koncu opisu, po tresci:</p>
+          <p style="font-family:monospace;background:var(--surface-2);padding:8px 12px;border-radius:6px;color:var(--gold)">"DM if interested in availability."</p>
+          <p style="color:var(--text-faint);font-size:12px;margin-top:4px">Jedno zdanie. Nienachalne. Dziala jak otwarte drzwi.</p>
+        </div>
+      </div>
+
+      <h3>Realistyczny rytm postowania</h3>
+      <table>
+        <tr><th>Czestotliwosc</th><th>Co</th></tr>
+        <tr><td>1–2x / tydzien</td><td>Marcin publikuje to, co zawsze: produkty, warsztat, winyle</td></tr>
+        <tr><td>1x / tydzien</td><td>Story — cokolwiek z warsztatu, nawet kawa i kawalek drewna</td></tr>
+        <tr><td>1x / miesiac</td><td>Post z produktem + jednolinijkowe CTA</td></tr>
+      </table>
+
+      <h3>Case study: DeVore Fidelity (NYC)</h3>
+      <p>Marka, ktora repostowala Charlie Studio. Glosniki 3 000–30 000 USD, 47 000 obserwujacych.</p>
+      <ul>
+        <li>80% tresci: atmosfera (muzyka, jazz, winyle, przestrzenie odsluchowe)</li>
+        <li>20% tresci: produkty z cenami i linkiem do dilerow</li>
+        <li>Bio: "Hand built loudspeakers. New York City. Est. 2000."</li>
+        <li>Zero platnych reklam. Cala sprzedaz przez spolecznosc i word-of-mouth.</li>
+      </ul>
+      <blockquote>Autentycznosc + minimalna architektura sprzedazowa = wystarczy dla segmentu premium.</blockquote>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FUNNEL -->
+    <div class="section" id="funnel">
+      <span class="section-badge badge-strategy">Strategia</span>
+      <h2>Lejek sprzedazowy Charlie Studio</h2>
+      <div class="section-desc">Sprzedaz glosnikow za 2 500–4 500 EUR nie dzieje sie przez klikniecie reklamy. Wymaga czasu i zaufania. Oto jak wyglada realny proces zakupowy Waszego klienta.</div>
+
+      <div class="funnel">
+        <div class="funnel-step">
+          <div class="funnel-num">1</div>
+          <div class="funnel-content">
+            <h4>Odkrycie (Discovery)</h4>
+            <p>Ktos trafia na post Charlie Studio przez hashtag, repost DeVore Fidelity, albo polecenie znajomego audiofila. Widzi piekne zdjecie glosnika.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">2</div>
+          <div class="funnel-content">
+            <h4>Sledzenie (Following)</h4>
+            <p>Zaczyna obserwowac profil. Ogladna kolejne posty przez tygodnie lub miesiace. Buduje sie zaufanie do jakosci i filozofii marki.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">3</div>
+          <div class="funnel-content">
+            <h4>Zainteresowanie zakupem (Intent)</h4>
+            <p>Widzi post z modelem + cena lub CTA "DM for availability". Po raz pierwszy pojawia sie mysle: "chce to". Sprawdza Highlights zeby dowiedziec sie wiecej.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">4</div>
+          <div class="funnel-content">
+            <h4>Zapytanie (DM)</h4>
+            <p>Pisze wiadomosc prywatna. Pyta o cene, dostepnosc, czas oczekiwania. To jest moment, ktory teraz prawdopodobnie nie nastepuje, bo nie ma CTA.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">5</div>
+          <div class="funnel-content">
+            <h4>Zakup</h4>
+            <p>Rozmowa przez DM, ustalenie szczegolów, zamowienie. Cel: 5 par miesiecznie na start.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>Dziury w lejku (teraz):</strong> Etap 3 i 4 sa zepsute — klient nie wie, ze moze kupic (brak CTA, brak cen), a jak juz chce zapytac, bio nie mowi jak to zrobic.
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BUSINESS DATA -->
+    <div class="section" id="business">
+      <span class="section-badge badge-analysis">Dane firmy</span>
+      <h2>Charlie Studio — dane podstawowe</h2>
+      <div class="section-desc">Zestawienie kluczowych informacji o firmie zebrane podczas sesji mentoringowych.</div>
+
+      <table>
+        <tr><th>Parametr</th><th>Dane</th></tr>
+        <tr><td>Nazwa</td><td>Charlie Studio</td></tr>
+        <tr><td>Forma prawna</td><td>JDG (Marcin Zaborski)</td></tr>
+        <tr><td>Zalozono</td><td>2020</td></tr>
+        <tr><td>Lokalizacja</td><td>Warszawa (Praga)</td></tr>
+        <tr><td>Instagram</td><td>@charlie_studio_audio</td></tr>
+        <tr><td>Model sprzedazy</td><td>D2C (direct-to-consumer) — bez dilerow</td></tr>
+        <tr><td>Produkty</td><td>Django, Dizzy, Mingus</td></tr>
+        <tr><td>USP (potwierdzone)</td><td>Doskonale brzmienie w konkurencyjnej cenie — NIE design/lifestyle</td></tr>
+      </table>
+    </div>
+
+    <!-- PRICING -->
+    <div class="section" id="pricing">
+      <span class="section-badge badge-analysis">Finanse</span>
+      <h2>Ceny i marze</h2>
+      <div class="section-desc">Zestawienie kosztow materialow, cen sprzedazy i szacowanych marz. Uwaga: marze NIE uwzgledniaja kosztow robocizny — to jest krytyczna luka do wypelnienia.</div>
+
+      <div class="alert alert-warning">
+        <strong>UWAGA:</strong> Ponizsze marze sa zawyzone, bo nie uwzgledniaja kosztow robocizny (godziny pracy Marcina, Antoniego i ewentualnych podwykonawcow). Realna marza jest nizsza — o ile nizsza, zalezy od liczby godzin x stawka godzinowa.
+      </div>
+
+      <table>
+        <tr><th>Model</th><th>Koszt mat.</th><th>Cena min.</th><th>Cena max.</th><th>Marza (mat.)</th></tr>
+        <tr><td>Django</td><td>~1 897 PLN (~443 EUR)</td><td>1 000 EUR</td><td>1 200 EUR</td><td><span class="tag tag-green">55–63%</span></td></tr>
+        <tr><td>Dizzy</td><td>~3 934 PLN (~919 EUR)</td><td>2 500 EUR</td><td>3 000 EUR</td><td><span class="tag tag-green">63–69%</span></td></tr>
+        <tr><td>Mingus</td><td>~5 015 PLN (~1 172 EUR)</td><td>4 000 EUR</td><td>4 500 EUR</td><td><span class="tag tag-green">71–74%</span></td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--text-faint)">Kurs EUR/PLN: 4.28. Koszty materialow z arkusza CharlieStudio_Wyceny.xlsx</p>
+
+      <h3>Cel marzy (deklarowany)</h3>
+      <p>Docelowa marza: <strong>40–50%</strong> — po uwzglednieniu wszelkich kosztow, w tym robocizny.</p>
+    </div>
+
+    <!-- CAPACITY -->
+    <div class="section" id="capacity">
+      <span class="section-badge badge-analysis">Operacje</span>
+      <h2>Kapacyt i zespol</h2>
+      <div class="section-desc">Realne ograniczenia produkcyjne i struktura zespolu.</div>
+
+      <table>
+        <tr><th>Osoba</th><th>Rola w Charlie Studio</th><th>Glowne zajecie</th></tr>
+        <tr><td>Marcin Zaborski</td><td>Produkcja, stolarnia, montaz</td><td>Wlasna pracownia stolarska</td></tr>
+        <tr><td>Antoni Bagan</td><td>Strojenie, pomiary, audio</td><td>Lampizator</td></tr>
+        <tr><td>Adam Kiryk</td><td>Design, marketing, strategia</td><td>Architekt w Szwajcarii</td></tr>
+      </table>
+
+      <div class="metrics" style="margin-top:16px">
+        <div class="metric">
+          <div class="metric-val">7–8</div>
+          <div class="metric-label">Par / miesiac max. (kapacyt)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">5</div>
+          <div class="metric-label">Par / miesiac (cel startowy)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">~1 850</div>
+          <div class="metric-label">EUR / osoba przy 5 parach Django</div>
+        </div>
+      </div>
+
+      <div class="alert alert-insight">
+        <strong>Strategiczna konsekwencja:</strong> Kazda godzina musi byc zaplanowana. Nie mozemy przepalac czasu na dzialania, ktore nie prowadza do sprzedazy lub produkcji. Strategia musi byc zaprojektowana pod minimalny wklad czasu przy maksymalnym efekcie.
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- MODULE 1 -->
+    <div class="section" id="module1">
+      <span class="section-badge badge-method">Modul 1</span>
+      <h2>Kim jest klient Charlie Studio?</h2>
+      <div class="section-desc">Status: W trakcie — formularz wyslany do Marcina i Antoniego. Pelna analiza po zebraniu danych.</div>
+
+      <div class="alert alert-info">
+        <strong>Hipoteza robocza (do weryfikacji):</strong> Glowny klient to mezczyzna 35–55 lat, zainteresowany hi-fi, ceni jakosc brzmienia ponad design, ma budzet 1 000–5 000 EUR na glosniki, trafia przez Instagram lub polecenie.
+      </div>
+
+      <h3>Zidentyfikowane segmenty (wstepne)</h3>
+      <table>
+        <tr><th>Segment</th><th>Opis</th><th>Prawdopodobienstwo</th></tr>
+        <tr><td>Hi-fi entuzjasci</td><td>Mezczyzni 35+, szukaja dobrego brzmienia w cenie nie-audiophile</td><td><span class="tag tag-green">Glowny</span></td></tr>
+        <tr><td>Architekci / projektanci wnetrz</td><td>Glosniki jako element przestrzeni</td><td><span class="tag tag-gold">Mozliwy</span></td></tr>
+        <tr><td>Muzycy, studyjni profesjonalisci</td><td>Monitor w domu, szczegolnosc odtwarzania</td><td><span class="tag tag-gold">Mozliwy</span></td></tr>
+        <tr><td>Klienci biznesowi (kawiarnie, restauracje)</td><td>Prestige, design, atmosfera</td><td><span class="tag tag-muted">Marginalny</span></td></tr>
+      </table>
+
+      <h3>Pytania do weryfikacji przez formularz</h3>
+      <ul>
+        <li>Kim byli dotychczasowi kupujacy? (juz zapytane w formularzu)</li>
+        <li>Ile razy ktos pytal przez IG o cene? (juz zapytane)</li>
+        <li>Jakie obiekcje najczesciej sie pojawiaja?</li>
+        <li>Czy klienci szukali Charlie Studio, czy trafili przypadkowo?</li>
+      </ul>
+    </div>
+
+    <!-- MODULE 2 -->
+    <div class="section" id="module2">
+      <span class="section-badge badge-method">Modul 2</span>
+      <h2>Pozycjonowanie — premium czy dostepny?</h2>
+      <div class="section-desc">Strategiczna decyzja: gdzie Charlie Studio lokuje sie na osi cenowej i jakosciowej.</div>
+
+      <div class="alert alert-action">
+        <strong>Decyzja (potwierdzona):</strong> USP Charlie Studio to doskonale brzmienie w konkurencyjnej cenie — NIE design ani lifestyle. To jest pozycja "dostepny premium" — lepsza jakosc niz masowe marki, ale bez pretensji do Sonus Faber czy Wilson Audio.
+      </div>
+
+      <h3>Ceny na tle konkurencji (wstepne)</h3>
+      <table>
+        <tr><th>Segment</th><th>Przyklad</th><th>Przedzialy cenowy</th><th>Charlie Studio vs.</th></tr>
+        <tr><td>Masowy hi-fi</td><td>ELAC, KEF Entry</td><td>300–1 000 EUR</td><td>Powyzej — ale jestesmy handmade</td></tr>
+        <tr><td>Sredni hi-fi</td><td>Fyne Audio, Spendor</td><td>1 000–4 000 EUR</td><td>Bezposrednia konkurencja</td></tr>
+        <tr><td>Boutique / artisan</td><td>DeVore, Charney</td><td>3 000–30 000 EUR</td><td>Ponizej — to jest szansa</td></tr>
+        <tr><td>Ultra premium</td><td>Wilson Audio, Sonus Faber</td><td>10 000–100 000+ EUR</td><td>Inny swiat</td></tr>
+      </table>
+
+      <div class="alert alert-insight">
+        <strong>Szansa pozycjonowania:</strong> Charlie Studio moze zajac niszę "boutique audio w cenie mid-fi" — jakoscią i estetyką bliskie DeVore Fidelity, ale w przedziale cenowym Fyne Audio. To jest gap, ktory mozna zajac.
+      </div>
+    </div>
+
+    <!-- MODULE 5 -->
+    <div class="section" id="module5">
+      <span class="section-badge badge-method">Modul 5</span>
+      <h2>Liczby — ile naprawde zarabiacie?</h2>
+      <div class="section-desc">Analiza finansowa oparta na danych z arkusza kosztow. Status: wstepna — brakuje danych o robociznie.</div>
+
+      <div class="alert alert-warning">
+        <strong>Kluczowy wniosek:</strong> Nie wiemy ile naprawde zarabiacie, dopoki nie wliczymy kosztow robocizny. To jest najpilniejszy gap analityczny.
+      </div>
+
+      <h3>Scenariusz 5 par Django / miesiac</h3>
+      <table>
+        <tr><th>Parametr</th><th>Wartosc</th></tr>
+        <tr><td>Przychod (5 × 1 100 EUR)</td><td>5 500 EUR</td></tr>
+        <tr><td>Koszt materialow (5 × ~443 EUR)</td><td>~2 215 EUR</td></tr>
+        <tr><td>Marza na materialach</td><td>~3 285 EUR (60%)</td></tr>
+        <tr><td>Dochod / osoba (bez robocizny)</td><td>~1 095 EUR</td></tr>
+        <tr><td>Koszt robocizny (NIEZNANY)</td><td>??? godzin × ??? PLN/h</td></tr>
+        <tr><td>Realna marza (NIEZNANA)</td><td>Zalezy od czasu produkcji</td></tr>
+      </table>
+
+      <p>Priorytety na najblizsze tygodnie:</p>
+      <ol>
+        <li>Marcin i Antoni wypelniaja formularz (ile godzin na model)</li>
+        <li>Ustalenie stawki robocizny (ile jest warte 1h pracy Marcina)</li>
+        <li>Przeliczenie realnej marzy dla kazdego modelu</li>
+        <li>Sprawdzenie, czy cel 40–50% marzy jest osiagalny</li>
+      </ol>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ACTIONS -->
+    <div class="section" id="actions">
+      <span class="section-badge badge-action">Do zrobienia</span>
+      <h2>Priorytety na teraz</h2>
+      <div class="section-desc">Lista konkretnych akcji — podzielona na kto / co / kiedy.</div>
+
+      <h4>Adam</h4>
+      <div class="card">
+        <div class="card-body">
+          <p>[ ] Zebrac wyniki formularza od Marcina i Antoniego</p>
+          <p>[ ] Zaktualizowac ten dokument po danych z formularza</p>
+          <p>[ ] Przygotowac analize konkurencji cenowej (nastepny krok mentoringu)</p>
+        </div>
+      </div>
+
+      <h4>Marcin</h4>
+      <div class="card">
+        <div class="card-body">
+          <p>[ ] Wypelnic formularz mentoringowy</p>
+          <p>[!] Zaktualizowac bio na IG (5 minut)</p>
+          <p>[ ] Stworzyc 3 Highlights na profilu IG</p>
+          <p>[ ] Przy nastepnym poscie z gotowym produktem dodac "DM for availability"</p>
+        </div>
+      </div>
+
+      <h4>Antoni</h4>
+      <div class="card">
+        <div class="card-body">
+          <p>[ ] Wypelnic formularz mentoringowy</p>
+          <p>[ ] Podac realne czasy produkcji dla kazdego modelu (h)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUARTERLY AUDIT -->
+    <div class="section" id="quarterly">
+      <span class="section-badge badge-method">Metodyka</span>
+      <h2>Kwartalny audit Instagrama</h2>
+      <div class="section-desc">Powtarzalny schemat analizy IG — 30 minut raz na 3 miesiace. Wystarczy arkusz Google Sheets.</div>
+
+      <h3>Krok po kroku</h3>
+
+      <div class="funnel">
+        <div class="funnel-step">
+          <div class="funnel-num">1</div>
+          <div class="funnel-content">
+            <h4>Zapisz dane bazowe</h4>
+            <p>Liczba obserwujacych, liczba postow w kwartale, laczne lajki, laczne komentarze. Wpisz do arkusza.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">2</div>
+          <div class="funnel-content">
+            <h4>Policz engagement rate</h4>
+            <p>(lajki + komentarze) / obserwujacy / liczba postow × 100 = ER%. Porownaj z poprzednim kwartalem. Benchmark dla Waszej wielkosci: 2,5–5%. Charlie Studio: 6–8%.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">3</div>
+          <div class="funnel-content">
+            <h4>Policz DM-y zakupowe</h4>
+            <p>Ile razy w kwartale ktos pytal o cene lub dostepnosc? Wpisz liczbe. To jest glowna metryka konwersji.</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">4</div>
+          <div class="funnel-content">
+            <h4>Znajdz top 3 posty</h4>
+            <p>3 posty z najwyzszym zaangazowaniem w kwartale. Co maja wspolnego? Typ (foto/reel/carousel), temat, pora dnia?</p>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">5</div>
+          <div class="funnel-content">
+            <h4>Jedno pytanie</h4>
+            <p>Czy engagement rate rosnie czy spada? Czy liczba DM rosnie czy spada? Jesli obydwie ida w gore — strategia dziala.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Metryki do sledzenia</h3>
+      <table>
+        <tr><th>Metryka</th><th>Gdzie sprawdzic</th><th>Co mierzy</th></tr>
+        <tr><td>Engagement rate</td><td>Instagram Insights</td><td>Jakosc odbiorcy</td></tr>
+        <tr><td>Reach per post</td><td>Instagram Insights</td><td>Zasieg organiczny</td></tr>
+        <tr><td>Follower growth rate</td><td>Recznie (Excel)</td><td>Tempo wzrostu</td></tr>
+        <tr><td>Profile visits</td><td>Instagram Insights</td><td>Ile osob sprawdza profil</td></tr>
+        <tr><td>Link in bio clicks</td><td>Instagram Insights</td><td>Ile osob przechodzi dalej</td></tr>
+        <tr><td>DM inquiries (zakupowe)</td><td>Recznie, Marcin liczy</td><td>Potencjalni klienci</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Mobile menu toggle
+var menuToggle = document.getElementById('menuToggle');
+var sidebar = document.getElementById('sidebar');
+var overlay = document.getElementById('sidebarOverlay');
+
+menuToggle.addEventListener('click', function() {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+});
+
+overlay.addEventListener('click', function() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+});
+
+// Close sidebar on nav click (mobile)
+document.querySelectorAll('.nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    if (window.innerWidth <= 860) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+  });
+});
+
+// Active nav highlight on scroll
+var sections = document.querySelectorAll('.section');
+var navItems = document.querySelectorAll('.nav-item');
+
+window.addEventListener('scroll', function() {
+  var scrollY = window.scrollY + 80;
+  sections.forEach(function(section) {
+    var top = section.offsetTop;
+    var height = section.offsetHeight;
+    if (scrollY >= top && scrollY < top + height) {
+      navItems.forEach(function(nav) { nav.classList.remove('active'); });
+      var target = document.querySelector('.nav-item[href="#' + section.id + '"]');
+      if (target) target.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
