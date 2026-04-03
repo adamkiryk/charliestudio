@@ -6,22 +6,25 @@
 <title>Charlie Studio — Strategia 2026</title>
 <style>
 :root {
-  --bg: #0f0e0c;
-  --surface: #1a1814;
-  --surface-2: #222019;
-  --border: #2e2b24;
-  --gold: #c9a855;
-  --gold-dim: #8b6914;
-  --gold-bg: rgba(201,168,85,0.08);
-  --text: #e8e0d0;
-  --text-muted: #9e9688;
-  --text-faint: #5a5548;
-  --green: #5a9a3e;
-  --green-bg: rgba(90,154,62,0.1);
-  --red: #a13544;
-  --red-bg: rgba(161,53,68,0.1);
-  --teal: #01696f;
-  --teal-bg: rgba(1,105,111,0.1);
+  --bg: #F5EFE6;
+  --surface: #EDE5D8;
+  --surface-2: #E5DDD0;
+  --border: #D5CCBD;
+  --navy: #1B3A6B;
+  --blue: #2352CC;
+  --blue-light: #E8EEF8;
+  --gold: #C9813A;
+  --gold-dim: #9B6020;
+  --gold-bg: #FAF0E4;
+  --text: #1A1A2E;
+  --text-muted: #5A5670;
+  --text-faint: #9B95A8;
+  --green: #2E7D32;
+  --green-bg: #E8F5E9;
+  --red: #B71C1C;
+  --red-bg: #FFEBEE;
+  --teal: #00695C;
+  --teal-bg: #E0F2F1;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +46,7 @@ body {
   top: 0; left: 0;
   width: 260px;
   height: 100vh;
-  background: var(--surface);
+  background: var(--bg);
   border-right: 1px solid var(--border);
   overflow-y: auto;
   padding: 24px 0;
@@ -60,7 +63,7 @@ body {
 .sidebar-logo h1 {
   font-size: 16px;
   font-weight: 800;
-  color: var(--text);
+  color: var(--navy);
   letter-spacing: -0.3px;
 }
 
@@ -68,13 +71,13 @@ body {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 3px;
-  color: var(--gold);
+  color: var(--blue);
   margin-top: 2px;
 }
 
 .sidebar-logo .updated {
   font-size: 11px;
-  color: var(--text-faint);
+  color: var(--text-muted);
   margin-top: 6px;
   font-weight: 400;
   letter-spacing: 0;
@@ -85,7 +88,7 @@ body {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--text-faint);
+  color: var(--text-muted);
   text-transform: uppercase;
   margin-top: 8px;
 }
@@ -101,9 +104,9 @@ body {
 }
 
 .nav-item:hover, .nav-item.active {
-  color: var(--gold);
-  border-left-color: var(--gold);
-  background: var(--gold-bg);
+  color: var(--navy);
+  border-left-color: var(--navy);
+  background: var(--blue-light);
 }
 
 .nav-item .dot {
@@ -126,7 +129,7 @@ body {
   display: none;
   position: sticky;
   top: 0;
-  background: var(--surface);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: 14px 20px;
   z-index: 200;
@@ -134,14 +137,14 @@ body {
   justify-content: space-between;
 }
 
-.mobile-header h1 { font-size: 15px; font-weight: 700; }
+.mobile-header h1 { font-size: 15px; font-weight: 700; color: var(--navy); }
 .mobile-header p { font-size: 10px; letter-spacing: 2px; color: var(--gold); }
 
 .menu-toggle {
-  background: var(--surface-2);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  color: var(--text);
+  color: var(--navy);
   padding: 8px 12px;
   cursor: pointer;
   font-size: 13px;
@@ -152,6 +155,7 @@ body {
 .main {
   margin-left: 260px;
   min-height: 100vh;
+  background: var(--bg);
 }
 
 .content {
@@ -178,15 +182,15 @@ body {
 }
 
 .badge-analysis { background: var(--teal-bg); color: var(--teal); border: 1px solid rgba(1,105,111,0.3); }
-.badge-strategy { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(201,168,85,0.2); }
+.badge-strategy { background: var(--gold-bg); color: var(--gold-dim); border: 1px solid rgba(201,129,58,0.3); }
 .badge-action { background: var(--green-bg); color: var(--green); border: 1px solid rgba(90,154,62,0.3); }
 .badge-warning { background: var(--red-bg); color: var(--red); border: 1px solid rgba(161,53,68,0.3); }
-.badge-method { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.badge-method { background: white; color: var(--text-muted); border: 1px solid var(--border); }
 
 .section h2 {
   font-size: 24px;
   font-weight: 800;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 6px;
   letter-spacing: -0.4px;
   line-height: 1.3;
@@ -204,14 +208,14 @@ body {
 h3 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--navy);
   margin: 24px 0 10px;
 }
 
 h4 {
   font-size: 14px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--navy);
   margin: 16px 0 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -223,7 +227,7 @@ strong { color: var(--text); font-weight: 700; }
 
 /* CARDS */
 .card {
-  background: var(--surface);
+  background: white;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
@@ -257,7 +261,7 @@ strong { color: var(--text); font-weight: 700; }
 }
 
 .metric {
-  background: var(--surface);
+  background: white;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px;
@@ -267,7 +271,7 @@ strong { color: var(--text); font-weight: 700; }
 .metric-val {
   font-size: 22px;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--navy);
   line-height: 1.2;
 }
 
@@ -319,7 +323,7 @@ table {
 }
 
 th {
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text-muted);
   font-weight: 600;
   font-size: 11px;
@@ -360,9 +364,9 @@ tr:hover td { background: var(--surface); }
   height: 32px;
   min-width: 32px;
   border-radius: 50%;
-  background: var(--gold-bg);
-  border: 1px solid var(--gold-dim);
-  color: var(--gold);
+  background: var(--blue-light);
+  border: 1px solid rgba(35,82,204,0.3);
+  color: var(--navy);
   font-size: 13px;
   font-weight: 800;
   display: flex;
@@ -370,7 +374,7 @@ tr:hover td { background: var(--surface); }
   justify-content: center;
 }
 
-.funnel-content h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: var(--text); text-transform: none; letter-spacing: 0; }
+.funnel-content h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: var(--navy); text-transform: none; letter-spacing: 0; }
 .funnel-content p { margin: 0; font-size: 13px; color: var(--text-muted); }
 
 /* LIST */
@@ -386,10 +390,10 @@ li { margin-bottom: 6px; font-size: 14px; color: var(--text); line-height: 1.6; 
 
 /* QUOTE */
 blockquote {
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--navy);
   padding: 12px 20px;
   margin: 16px 0;
-  background: var(--gold-bg);
+  background: var(--blue-light);
   border-radius: 0 8px 8px 0;
   font-size: 14px;
   font-style: italic;
@@ -444,7 +448,7 @@ blockquote {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 4px;
-  color: var(--gold);
+  color: var(--blue);
   margin-bottom: 12px;
 }
 
@@ -453,7 +457,7 @@ blockquote {
   font-weight: 900;
   letter-spacing: -1px;
   line-height: 1.15;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 12px;
 }
 
@@ -702,12 +706,12 @@ blockquote {
       <p>Nie zmieniamy tego, co dziala. Dodajemy warstwe, ktora prowadzi zainteresowanych do zakupu — bez nachalnosci.</p>
 
       <div class="mix-bar">
-        <div class="mix-segment" style="width:70%;background:var(--gold)"></div>
-        <div class="mix-segment" style="width:30%;background:var(--teal)"></div>
+        <div class="mix-segment" style="width:70%;background:var(--navy)"></div>
+        <div class="mix-segment" style="width:30%;background:var(--blue)"></div>
       </div>
       <div class="mix-legend">
-        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--gold)"></div><span>70% — Tresci obecne (bez zmian)</span></div>
-        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--teal)"></div><span>30% — Nowe warstwy sprzedazowe</span></div>
+        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--navy)"></div><span>70% — Tresci obecne (bez zmian)</span></div>
+        <div class="mix-legend-item"><div class="mix-dot" style="background:var(--blue)"></div><span>30% — Nowe warstwy sprzedazowe</span></div>
       </div>
 
       <table>
@@ -725,7 +729,7 @@ blockquote {
         <div class="card-body">
           <p><strong>Obecne:</strong> "I renovate and sell vintage audio equipment. DM, if you want to find perfect sound..."</p>
           <p><strong>Proponowane:</strong></p>
-          <p style="font-family:monospace;background:var(--surface-2);padding:10px;border-radius:6px;color:var(--gold)">Handmade hi-fi speakers. Warsaw.<br>Django · Dizzy · Mingus<br>DM for pricing & availability</p>
+          <p style="font-family:monospace;background:var(--blue-light);padding:10px;border-radius:6px;color:var(--navy)">Handmade hi-fi speakers. Warsaw.<br>Django · Dizzy · Mingus<br>DM for pricing & availability</p>
         </div>
       </div>
 
@@ -743,7 +747,7 @@ blockquote {
         <div class="card-title"><span class="tag tag-green">Zmiana 3</span> CTA w postach — jedna linijka</div>
         <div class="card-body">
           <p>Nie do kazdego posta. Tylko do postow z gotowym produktem — na koncu opisu, po tresci:</p>
-          <p style="font-family:monospace;background:var(--surface-2);padding:8px 12px;border-radius:6px;color:var(--gold)">"DM if interested in availability."</p>
+          <p style="font-family:monospace;background:var(--blue-light);padding:8px 12px;border-radius:6px;color:var(--navy)">"DM if interested in availability."</p>
           <p style="color:var(--text-faint);font-size:12px;margin-top:4px">Jedno zdanie. Nienachalne. Dziala jak otwarte drzwi.</p>
         </div>
       </div>
