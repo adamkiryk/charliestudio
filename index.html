@@ -2,15 +2,13 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Charlie Studio - Mentoring</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charlie Studio — Hub</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
   --bg: #F5EFE6;
   --surface: #EDE5D8;
-  --surface-2: #E5DDD0;
+  --card: #FFFFFF;
   --border: #D5CCBD;
   --navy: #1B3A6B;
   --blue: #2352CC;
@@ -20,36 +18,31 @@
   --text: #1A1A2E;
   --text-muted: #5A5670;
   --text-faint: #9B95A8;
-  --success: #2E7D32;
-  --success-bg: #E8F5E9;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --green: #2E7D32;
+  --green-bg: #E8F5E9;
 }
 
-html { -webkit-text-size-adjust: none; text-size-adjust: none; scroll-behavior: smooth; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: none; }
 
 body {
-  min-height: 100dvh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text);
   background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
 }
 
-.container { max-width: 480px; margin: 0 auto; padding: 0 20px; }
-
+/* ── HEADER ── */
 header {
+  background: var(--navy);
+  padding: 28px 24px 24px;
   text-align: center;
-  padding: 32px 0 24px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 8px;
 }
 
 .logo-ring {
-  width: 56px; height: 56px;
-  border: 2px solid var(--navy);
+  width: 52px; height: 52px;
+  border: 2px solid rgba(255,255,255,0.5);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -57,624 +50,221 @@ header {
   margin-bottom: 12px;
 }
 
-.logo-ring svg { width: 32px; height: 32px; }
-
-header h1 { font-size: 26px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
-header .subtitle { font-size: 11px; font-weight: 600; letter-spacing: 4px; color: var(--blue); margin-top: 4px; }
-
-.name-section { padding: 20px 0 0; }
-.name-section label { font-size: 14px; font-weight: 500; color: var(--text-muted); display: block; margin-bottom: 8px; }
-
-.text-input {
-  width: 100%;
-  padding: 12px 14px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-}
-.text-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(35,82,204,0.1); }
-.text-input::placeholder { color: var(--text-faint); }
-
-.menu-header { padding: 24px 0 4px; }
-.menu-header h2 { font-size: 20px; font-weight: 700; color: var(--navy); }
-.menu-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
-
-.menu-intro {
-  font-size: 13px;
-  color: var(--text-muted);
-  padding: 12px 16px;
-  margin: 12px 0 8px;
-  background: var(--blue-light);
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--blue);
-  line-height: 1.5;
+header h1 {
+  font-size: 26px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
 }
 
-.categories { display: flex; flex-direction: column; gap: 10px; padding: 16px 0 20px; }
+header p {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
 
-.cat-card {
+.header-meta {
+  margin-top: 12px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ── MAIN ── */
+main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 28px 0 12px;
+  padding-left: 2px;
+}
+
+/* ── PAGE CARDS ── */
+.pages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: white;
+  gap: 16px;
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  cursor: pointer;
+  border-radius: 14px;
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.15s, box-shadow 0.15s;
 }
-.cat-card:hover { border-color: var(--blue); box-shadow: 0 2px 8px rgba(35,82,204,0.1); }
 
-.cat-icon {
-  width: 44px; height: 44px; min-width: 44px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800;
-  background: var(--blue-light);
+.page-card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 16px rgba(35,82,204,0.12);
+  transform: translateY(-1px);
+}
+
+.page-card:active {
+  transform: translateY(0);
+}
+
+.card-icon {
+  width: 48px; height: 48px; min-width: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.icon-blue { background: var(--blue-light); color: var(--navy); }
+.icon-gold { background: var(--gold-bg); color: var(--gold); }
+.icon-green { background: var(--green-bg); color: var(--green); }
+.icon-navy { background: var(--navy); color: #fff; }
+
+.card-body { flex: 1; min-width: 0; }
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
   color: var(--navy);
-  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.cat-info { flex: 1; min-width: 0; }
-.cat-info h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
-.cat-info p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-
-.cat-status { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
-.cat-status-empty { color: var(--text-faint); background: var(--surface); }
-.cat-status-partial { color: var(--gold); background: var(--gold-bg); }
-.cat-status-done { color: var(--success); background: var(--success-bg); }
-
-.copy-all-section { padding: 8px 0 32px; border-top: 1px solid var(--border); margin-top: 4px; }
-
-.copy-all-btn {
-  width: 100%;
-  padding: 16px;
-  background: var(--navy);
-  color: white;
-  font-size: 16px; font-weight: 700;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  margin-top: 16px;
-  transition: background 0.15s;
-}
-.copy-all-btn:hover { background: var(--blue); }
-.copy-all-btn.copied { background: var(--success); }
-
-.copy-hint { text-align: center; font-size: 12px; color: var(--text-faint); margin-top: 10px; }
-
-.answers-count { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 16px; }
-.answers-count strong { color: var(--navy); }
-
-.copy-fallback {
-  width: 100%; min-height: 200px; margin-top: 12px; padding: 14px;
-  background: white; border: 1px solid var(--blue); border-radius: var(--radius-sm);
-  color: var(--text); font-size: 13px; font-family: monospace; line-height: 1.5;
-  resize: vertical; display: none;
-}
-.copy-fallback.show { display: block; }
-
-.copy-fallback-hint { display: none; text-align: center; font-size: 12px; color: var(--blue); margin-top: 8px; line-height: 1.4; }
-.copy-fallback-hint.show { display: block; }
-
-.view { display: none; }
-.view.active { display: block; }
-
-.cat-view-header { padding: 20px 0 16px; }
-
-.back-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 14px; font-weight: 600; color: var(--blue);
-  background: none; border: none; cursor: pointer; padding: 8px 0; margin-bottom: 12px;
-  -webkit-tap-highlight-color: transparent;
+.card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
-.cat-view-header h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
-.cat-view-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-.questions { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; }
-
-.q-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-
-.q-label { font-size: 15px; font-weight: 500; line-height: 1.45; margin-bottom: 16px; color: var(--text); }
-
-.slider-group { display: flex; flex-direction: column; gap: 14px; }
-.slider-row { display: flex; align-items: center; gap: 12px; }
-.slider-row label { font-size: 13px; color: var(--text-muted); min-width: 0; flex: 1; line-height: 1.3; }
-
-.slider-row input[type="range"] {
-  flex: 0 0 100px; height: 6px;
-  -webkit-appearance: none; appearance: none;
-  background: var(--border); border-radius: 3px; outline: none;
-}
-.slider-row input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
-  background: var(--navy); cursor: pointer;
+.card-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.slider-row .slider-val { font-size: 14px; font-weight: 700; color: var(--navy); min-width: 36px; text-align: right; }
+.tag-live { background: var(--green-bg); color: var(--green); }
+.tag-wip  { background: var(--gold-bg);  color: var(--gold);  }
+.tag-doc  { background: var(--blue-light); color: var(--blue); }
 
-.slider-sum {
-  text-align: center; font-size: 13px; font-weight: 600;
-  padding: 8px 12px; background: var(--surface); border-radius: var(--radius-sm); margin-top: 4px;
-}
-.slider-sum.ok { color: var(--success); background: var(--success-bg); }
-.slider-sum.warn { color: var(--gold); background: var(--gold-bg); }
-
-.check-group { display: flex; flex-direction: column; gap: 10px; }
-.check-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px; background: var(--surface);
-  border-radius: var(--radius-sm); cursor: pointer; -webkit-tap-highlight-color: transparent;
-  border: 1px solid transparent; transition: border-color 0.1s;
-}
-.check-item.checked { background: var(--blue-light); border-color: var(--blue); }
-
-.check-box {
-  width: 24px; height: 24px; min-width: 24px;
-  border: 2px solid var(--border); border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: white; background: white;
-}
-.check-item.checked .check-box { background: var(--navy); border-color: var(--navy); }
-
-.check-item span { font-size: 14px; line-height: 1.4; }
-
-.check-other-input {
-  width: 100%; margin-top: 8px; padding: 10px 14px;
-  background: white; border: 1px solid var(--border); border-radius: var(--radius-sm);
-  color: var(--text); font-size: 14px; font-family: inherit; outline: none; display: none;
-}
-.check-other-input:focus { border-color: var(--blue); }
-.check-other-input.show { display: block; }
-
-.radio-group { display: flex; flex-direction: column; gap: 8px; }
-.radio-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px; background: var(--surface);
-  border-radius: var(--radius-sm); cursor: pointer; -webkit-tap-highlight-color: transparent;
-  border: 1px solid transparent; transition: border-color 0.1s;
-}
-.radio-item.selected { background: var(--blue-light); border-color: var(--blue); }
-
-.radio-dot {
-  width: 22px; height: 22px; min-width: 22px;
-  border: 2px solid var(--border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: white;
-}
-.radio-item.selected .radio-dot { border-color: var(--navy); }
-.radio-dot-inner { width: 10px; height: 10px; border-radius: 50%; background: var(--navy); opacity: 0; }
-.radio-item.selected .radio-dot-inner { opacity: 1; }
-.radio-item span { font-size: 14px; line-height: 1.4; }
-
-.num-group { display: flex; flex-direction: column; gap: 12px; }
-.num-row { display: flex; align-items: center; gap: 10px; }
-.num-row label { font-size: 14px; color: var(--text-muted); min-width: 60px; }
-
-.num-controls {
-  display: flex; align-items: center;
-  background: white; border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden;
+.card-arrow {
+  color: var(--text-faint);
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-left: 4px;
 }
 
-.num-btn {
-  width: 48px; height: 48px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 700; color: var(--navy);
-  background: none; border: none; cursor: pointer;
-  -webkit-tap-highlight-color: transparent; user-select: none;
-}
-.num-btn:hover { background: var(--surface); }
-
-.num-val {
-  min-width: 48px; text-align: center;
-  font-size: 18px; font-weight: 700; color: var(--text);
-  padding: 0 4px; border-left: 1px solid var(--border); border-right: 1px solid var(--border);
-  height: 48px; display: flex; align-items: center; justify-content: center;
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0 0;
 }
 
-.num-unit { font-size: 13px; color: var(--text-faint); margin-left: 6px; }
-
-.cat-done-btn {
-  width: 100%; padding: 14px;
-  background: var(--surface); color: var(--navy);
-  font-size: 15px; font-weight: 700;
-  border: 1px solid var(--border); border-radius: var(--radius);
-  cursor: pointer; margin-bottom: 32px; transition: background 0.15s;
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-faint);
+  padding: 20px 0 32px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
 }
-.cat-done-btn:hover { background: var(--blue-light); border-color: var(--blue); }
-
-footer { text-align: center; padding: 20px 0 32px; font-size: 12px; color: var(--text-faint); }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="logo-ring">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="16" cy="16" r="14" stroke="#1B3A6B" stroke-width="1.5"/>
-        <path d="M16 8 C12 8, 9 11, 9 16 C9 20, 11 23, 14 24" stroke="#1B3A6B" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="16" cy="16" r="3" fill="#1B3A6B"/>
-        <path d="M19 10 L23 8" stroke="#1B3A6B" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <h1>Charlie Studio</h1>
-    <div class="subtitle">MENTORING</div>
-  </header>
 
-  <div id="menuView" class="view active">
-    <div class="name-section">
-      <label>Twoje imie (opcjonalnie)</label>
-      <input type="text" class="text-input" id="respondentName" placeholder="np. Adam, Marcin, Antoni...">
-    </div>
+<header>
+  <div class="logo-ring">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="14" stroke="white" stroke-width="1.5" stroke-opacity="0.8"/>
+      <path d="M16 8 C12 8, 9 11, 9 16 C9 20, 11 23, 14 24" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.8"/>
+      <circle cx="16" cy="16" r="3" fill="white" fill-opacity="0.9"/>
+      <path d="M19 10 L23 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.8"/>
+    </svg>
+  </div>
+  <h1>Charlie Studio</h1>
+  <p>MENTORING &amp; NARZĘDZIA</p>
+  <div class="header-meta">Warsaw · 2026</div>
+</header>
 
-    <div class="menu-header">
-      <h2>Kategorie</h2>
-      <p>Wypelnij dowolne kategorie. Mozesz wracac i uzupelniac w dowolnej kolejnosci.</p>
-    </div>
+<main>
 
-    <div class="menu-intro">
-      Po wypelnieniu kliknij "Skopiuj wszystkie odpowiedzi" na dole i wklej do czatu lub wyslij na WhatsApp.
-    </div>
+  <div class="section-label">Narzędzia</div>
+  <div class="pages" id="tools">
 
-    <div class="categories" id="catList">
-      <div class="cat-card" data-cat="instagram">
-        <div class="cat-icon">IG</div>
-        <div class="cat-info"><h3>Instagram i Odbiorcy</h3><p>Kim sa Wasi obserwujacy i jak reaguja na tresci</p></div>
-        <span class="cat-status cat-status-empty" id="status_instagram">Puste</span>
+    <a class="page-card" href="formularz.html">
+      <div class="card-icon icon-blue">FRM</div>
+      <div class="card-body">
+        <div class="card-title">Formularz mentoringowy</div>
+        <div class="card-desc">Kwestionariusz dla Marcina, Antoniego i Adama — 6 kategorii, kopiowanie odpowiedzi</div>
       </div>
-      <div class="cat-card" data-cat="production">
-        <div class="cat-icon">PR</div>
-        <div class="cat-info"><h3>Produkcja i Czas Pracy</h3><p>Realne godziny, kapacyt, koszty robocizny</p></div>
-        <span class="cat-status cat-status-empty" id="status_production">Puste</span>
-      </div>
-      <div class="cat-card" data-cat="components">
-        <div class="cat-icon">KD</div>
-        <div class="cat-info"><h3>Komponenty i Dostawcy</h3><p>Lancuch dostaw, lead time, powtarzalnosc</p></div>
-        <span class="cat-status cat-status-empty" id="status_components">Puste</span>
-      </div>
-      <div class="cat-card" data-cat="marketing">
-        <div class="cat-icon">MR</div>
-        <div class="cat-info"><h3>Marketing i Reklama</h3><p>Budzet, doswiadczenie, dostepny czas</p></div>
-        <span class="cat-status cat-status-empty" id="status_marketing">Puste</span>
-      </div>
-      <div class="cat-card" data-cat="sales">
-        <div class="cat-icon">SP</div>
-        <div class="cat-info"><h3>Sprzedaz i Klienci</h3><p>Dotychczasowe doswiadczenia, proces zakupowy</p></div>
-        <span class="cat-status cat-status-empty" id="status_sales">Puste</span>
-      </div>
-      <div class="cat-card" data-cat="vision">
-        <div class="cat-icon">WP</div>
-        <div class="cat-info"><h3>Wizja i Priorytety</h3><p>Gdzie widzicie firme i co jest najwazniejsze</p></div>
-        <span class="cat-status cat-status-empty" id="status_vision">Puste</span>
-      </div>
-    </div>
+      <span class="card-tag tag-live">Aktywny</span>
+      <span class="card-arrow">›</span>
+    </a>
 
-    <div class="copy-all-section">
-      <div class="answers-count" id="answersCount">Wypelniono <strong>0</strong> z 20 pytan</div>
-      <button class="copy-all-btn" id="copyBtn" type="button">Skopiuj wszystkie odpowiedzi</button>
-      <div class="copy-hint">Skopiuj i wklej do czatu z mentorem</div>
-      <textarea class="copy-fallback" id="copyFallback" readonly></textarea>
-      <div class="copy-fallback-hint" id="copyFallbackHint">Tekst powyzej zostal zaznaczony. Przytrzymaj palec i wybierz "Kopiuj", a nastepnie wklej w wiadomosci.</div>
-    </div>
+    <a class="page-card" href="kalkulator.html">
+      <div class="card-icon icon-gold">KAL</div>
+      <div class="card-body">
+        <div class="card-title">Kalkulator scenariuszy</div>
+        <div class="card-desc">Marże, ceny, czas pracy dla Django / Dizzy / Mingus — tryb normalny i odwrotny</div>
+      </div>
+      <span class="card-tag tag-live">Aktywny</span>
+      <span class="card-arrow">›</span>
+    </a>
+
   </div>
 
-  <div id="catView" class="view">
-    <div class="cat-view-header">
-      <button class="back-btn" id="backBtn" type="button">&lt; Wroc do kategorii</button>
-      <h2 id="catTitle"></h2>
-      <p id="catDesc"></p>
-    </div>
-    <div class="questions" id="catQuestions"></div>
-    <button class="cat-done-btn" id="doneBtn" type="button">Wroc do kategorii</button>
+  <div class="section-label">Analizy i dokumenty</div>
+  <div class="pages" id="docs">
+
+    <a class="page-card" href="strategia.html">
+      <div class="card-icon icon-navy">STR</div>
+      <div class="card-body">
+        <div class="card-title">Strategia biznesowa</div>
+        <div class="card-desc">Audit Instagramu, pozycjonowanie, moduły mentoringu, priorytety</div>
+      </div>
+      <span class="card-tag tag-doc">Dokument</span>
+      <span class="card-arrow">›</span>
+    </a>
+
+    <a class="page-card" href="konkurencja.html">
+      <div class="card-icon icon-blue">KON</div>
+      <div class="card-body">
+        <div class="card-title">Analiza konkurencji 2026</div>
+        <div class="card-desc">Benchmarki cenowe, pozycjonowanie rynkowe boutique audio</div>
+      </div>
+      <span class="card-tag tag-doc">Dokument</span>
+      <span class="card-arrow">›</span>
+    </a>
+
   </div>
 
-  <footer>Charlie Studio 2026</footer>
-</div>
+  <div class="divider"></div>
 
-<script>
-(function() {
-  'use strict';
+</main>
 
-  var categories = [
-    { id: 'instagram', title: 'Instagram i Odbiorcy', desc: 'Kim sa Wasi obserwujacy i jak reaguja na tresci', questions: [
-      { id: 'ig_breakdown', type: 'slider3', label: 'Z 22 000 obserwujacych na Instagramie @charlie_studio_audio, jaki masz wrazenie ile to:', options: ['Prawdziwi ludzie zainteresowani audio/muzyka', 'Martwe konta / boty / nieaktywni', 'Inne firmy / marki / sklepy audio'] },
-      { id: 'ig_engagement', type: 'check', label: 'Jakie posty generuja najwieksze zaangazowanie (lajki, komentarze, zapisy, DM-y)?', options: ['Zdjecia gotowych glosnikow (efekt koncowy)', 'Proces produkcji (warsztat, drewno, narzedzia)', 'Filmy / reelsy z brzmienia', 'Osobiste posty Marcina (historia, pasja)', 'Posty o projektach custom (renowacje, zlecenia)', 'Inne'] },
-      { id: 'ig_inquiries', type: 'radio', label: 'Ile razy w ostatnim roku ktos pytal przez Instagram "ile kosztuja" lub "jak kupic"?', options: ['0', '1-5', '6-20', '21-50', '50+'] }
-    ]},
-    { id: 'production', title: 'Produkcja i Czas Pracy', desc: 'Realne godziny, kapacyt, koszty robocizny', questions: [
-      { id: 'prod_hours', type: 'num3', label: 'Ile godzin zajmuje wyprodukowanie jednej pary kazdego modelu? (lacznie: stolarnia, montaz, strojenie, testy)', models: ['Django', 'Dizzy', 'Mingus'], unit: 'h' },
-      { id: 'prod_capacity', type: 'num1', label: 'Ile par glosnikow jestescie w stanie zrobic miesiecznie przy obecnym obciazeniu?', unit: 'par / mies.' },
-      { id: 'prod_rate', type: 'num1', label: 'Jaki powinien byc koszt godziny pracy wliczony w produkcje? (robocizna stolarska + montaz audio)', unit: 'PLN / h', step: 10 },
-      { id: 'prod_bottleneck', type: 'radio', label: 'Co jest najwiekszym waskim gardlem w produkcji?', options: ['Czas Marcina (stolarnia, montaz)', 'Czas Antoniego (strojenie, pomiary)', 'Oczekiwanie na komponenty', 'Oczekiwanie na podwykonawcow (CNC, lakiernia)', 'Wszystko po trochu', 'Nie wiem'] }
-    ]},
-    { id: 'components', title: 'Komponenty i Dostawcy', desc: 'Lancuch dostaw, lead time, powtarzalnosc', questions: [
-      { id: 'comp_suppliers', type: 'radio', label: 'Czy komponenty audio (przetworniki, zwrotnice) kupujecie od stalych dostawcow?', options: ['Tak - stali dostawcy z ustalonymi cenami', 'Przewaznie stali, ale czasem szukamy', 'Za kazdym razem szukamy najlepszej oferty'] },
-      { id: 'comp_audio_lead', type: 'radio', label: 'Jaki jest typowy czas oczekiwania na kluczowe komponenty audio?', options: ['Do tygodnia', '2-4 tygodnie', '1-3 miesiace', 'Wiecej niz 3 miesiace'] },
-      { id: 'comp_wood_lead', type: 'radio', label: 'Jaki jest czas oczekiwania na elementy obudow od podwykonawcow (CNC, stolarnia)?', options: ['Do tygodnia', '2-4 tygodnie', '1-2 miesiace', 'Zalezy od obciazenia podwykonawcy'] }
-    ]},
-    { id: 'marketing', title: 'Marketing i Reklama', desc: 'Budzet, doswiadczenie, dostepny czas', questions: [
-      { id: 'mkt_hours', type: 'num1', label: 'Ile godzin tygodniowo mozecie (wszyscy lacznie) poswiecic na marketing i sprzedaz?', unit: 'h / tydzien' },
-      { id: 'mkt_exp', type: 'radio', label: 'Jakie jest Wasze doswiadczenie z platna reklama online (Google Ads, Meta Ads, YouTube)?', options: ['Prowadzilem/am kampanie samodzielnie', 'Podstawowa wiedza teoretyczna', 'Zerowe - nigdy nie robilismy platnych reklam'] },
-      { id: 'mkt_budget', type: 'radio', label: 'Jaki miesieczny budzet na marketing jest realistyczny na start?', options: ['0 PLN (tylko organicznie)', '500-1000 PLN / miesiac', '1000-3000 PLN / miesiac', '3000+ PLN / miesiac'] },
-      { id: 'mkt_channels', type: 'check', label: 'Ktore kanaly juz aktywnie prowadzicie?', options: ['Instagram', 'YouTube', 'Facebook', 'Strona www', 'Newsletter / mailing', 'Targi / eventy', 'Inne'] }
-    ]},
-    { id: 'sales', title: 'Sprzedaz i Klienci', desc: 'Dotychczasowe doswiadczenia, proces zakupowy', questions: [
-      { id: 'sales_count', type: 'radio', label: 'Ile par glosnikow sprzedaliscie do tej pory (lacznie)?', options: ['0 - jeszcze nie sprzedawalismy nowej serii', '1-5 par', '6-15 par', '16-30 par', 'Wiecej niz 30 par'] },
-      { id: 'sales_who', type: 'check', label: 'Kim byli dotychczasowi kupujacy?', options: ['Znajomi / rodzina', 'Obserwujacy z Instagrama', 'Klienci z polecen', 'Muzycy / profesjonalisci audio', 'Architekci / projektanci wnetrz', 'Klienci biznesowi (restauracje, kawiarnie)', 'Jeszcze nie mielismy klientow', 'Inne'] },
-      { id: 'sales_objections', type: 'check', label: 'Jakie obiekcje najczesciej slyszycie od potencjalnych klientow?', options: ['Za drogo', 'Nie znamy tej marki', 'Jak brzmi w porownaniu do [znana marka]?', 'Gdzie mozna ich osluchac?', 'Jak wyglada gwarancja / serwis?', 'Jak dlugo trzeba czekac?', 'Nie slyszelismy jeszcze obiekcji', 'Inne'] }
-    ]},
-    { id: 'vision', title: 'Wizja i Priorytety', desc: 'Gdzie widzicie firme i co jest najwazniejsze', questions: [
-      { id: 'vis_priority', type: 'radio', label: 'Co jest najwazniejsze dla Charlie Studio na najblizsze 6 miesiecy?', options: ['Skonczyc prototypy i uruchomic sprzedaz', 'Zbudowac rozpoznawalnosc marki', 'Zdobyc pierwszych 10 platnych klientow', 'Ulozyc proces produkcji (powtarzalnosc)', 'Sprawdzic czy jest popyt na nasze produkty'] },
-      { id: 'vis_risk', type: 'radio', label: 'Co Was najbardziej niepokoi?', options: ['Nie wiemy czy ktos kupi za te ceny', 'Nie mamy czasu - kazdy ma inne glowne zajecie', 'Brak doswiadczenia w sprzedazy i marketingu', 'Grant sie skonczy a my nie bedziemy gotowi', 'Cos innego'] },
-      { id: 'vis_free', type: 'text', label: 'Czy jest cos waznego, o czym mentor powinien wiedziec, a o co nie zapytal?', placeholder: 'Wpisz tutaj cokolwiek istotne...' }
-    ]}
-  ];
+<footer>Charlie Studio 2026 · adamkiryk.github.io/charliestudio</footer>
 
-  var answers = {};
-  var totalQuestions = 20;
-
-  function setAnswer(id, val) { answers[id] = val; updateStatuses(); }
-
-  function getCatStatus(cat) {
-    var answered = 0;
-    for (var i = 0; i < cat.questions.length; i++) {
-      var a = answers[cat.questions[i].id];
-      if (a !== undefined && a !== null && a !== '' && !(Array.isArray(a) && a.length === 0)) answered++;
-    }
-    if (answered === 0) return 'empty';
-    if (answered >= cat.questions.length) return 'done';
-    return 'partial';
-  }
-
-  function updateStatuses() {
-    var answeredQ = 0;
-    for (var c = 0; c < categories.length; c++) {
-      var cat = categories[c];
-      var el = document.getElementById('status_' + cat.id);
-      if (el) {
-        var s = getCatStatus(cat);
-        el.className = 'cat-status cat-status-' + s;
-        el.textContent = s === 'done' ? 'Gotowe' : s === 'partial' ? 'W trakcie' : 'Puste';
-      }
-      for (var q = 0; q < cat.questions.length; q++) {
-        var a = answers[cat.questions[q].id];
-        if (a !== undefined && a !== null && a !== '' && !(Array.isArray(a) && a.length === 0)) answeredQ++;
-      }
-    }
-    var countEl = document.getElementById('answersCount');
-    if (countEl) countEl.innerHTML = 'Wypelniono <strong>' + answeredQ + '</strong> z ' + totalQuestions + ' pytan';
-  }
-
-  function openCategory(catId) {
-    var cat = null;
-    for (var i = 0; i < categories.length; i++) { if (categories[i].id === catId) { cat = categories[i]; break; } }
-    if (!cat) return;
-    document.getElementById('menuView').className = 'view';
-    document.getElementById('catView').className = 'view active';
-    document.getElementById('catTitle').textContent = cat.title;
-    document.getElementById('catDesc').textContent = cat.desc;
-    var container = document.getElementById('catQuestions');
-    container.innerHTML = '';
-    for (var q = 0; q < cat.questions.length; q++) {
-      var qData = cat.questions[q];
-      var card = document.createElement('div');
-      card.className = 'q-card';
-      var label = document.createElement('div');
-      label.className = 'q-label';
-      label.textContent = qData.label;
-      card.appendChild(label);
-      card.appendChild(buildQuestion(qData));
-      container.appendChild(card);
-    }
-    window.scrollTo(0, 0);
-  }
-
-  function goToMenu() {
-    document.getElementById('catView').className = 'view';
-    document.getElementById('menuView').className = 'view active';
-    updateStatuses();
-    window.scrollTo(0, 0);
-  }
-
-  function buildQuestion(q) {
-    switch (q.type) {
-      case 'slider3': return buildSlider3(q);
-      case 'check': return buildCheck(q);
-      case 'radio': return buildRadio(q);
-      case 'num3': return buildNum3(q);
-      case 'num1': return buildNum1(q);
-      case 'text': return buildText(q);
-    }
-    return document.createElement('div');
-  }
-
-  function buildSlider3(q) {
-    var wrap = document.createElement('div'); wrap.className = 'slider-group';
-    var vals = answers[q.id] || [34, 33, 33];
-    if (!answers[q.id]) answers[q.id] = [34, 33, 33];
-    var sliders = [], valEls = [];
-    var sumEl = document.createElement('div');
-    function updateSum() { var s = vals[0]+vals[1]+vals[2]; sumEl.textContent = 'Suma: '+s+'%'; sumEl.className = 'slider-sum '+(s===100?'ok':'warn'); }
-    for (var i = 0; i < q.options.length; i++) {
-      (function(idx) {
-        var row = document.createElement('div'); row.className = 'slider-row';
-        var lbl = document.createElement('label'); lbl.textContent = q.options[idx];
-        var sl = document.createElement('input'); sl.type='range'; sl.min='0'; sl.max='100'; sl.value=String(vals[idx]);
-        sliders.push(sl);
-        var valEl = document.createElement('span'); valEl.className='slider-val'; valEl.textContent=vals[idx]+'%';
-        valEls.push(valEl);
-        sl.addEventListener('input', function() {
-          var nv=parseInt(sl.value), ov=vals[idx], diff=nv-ov; vals[idx]=nv;
-          var others=[]; for(var x=0;x<3;x++){if(x!==idx)others.push(x);}
-          var otherSum=vals[others[0]]+vals[others[1]];
-          if(otherSum>0){var r=vals[others[0]]/otherSum;vals[others[0]]=Math.max(0,Math.round(vals[others[0]]-diff*r));vals[others[1]]=Math.max(0,100-vals[idx]-vals[others[0]]);}
-          else{vals[others[0]]=Math.max(0,Math.round((100-nv)/2));vals[others[1]]=Math.max(0,100-nv-vals[others[0]]);}
-          for(var j=0;j<3;j++){sliders[j].value=String(vals[j]);valEls[j].textContent=vals[j]+'%';}
-          answers[q.id]=vals.slice(); updateSum();
-        });
-        row.appendChild(lbl); row.appendChild(sl); row.appendChild(valEl); wrap.appendChild(row);
-      })(i);
-    }
-    updateSum(); wrap.appendChild(sumEl); return wrap;
-  }
-
-  function buildCheck(q) {
-    var wrap = document.createElement('div'); wrap.className = 'check-group';
-    if (!answers[q.id]) answers[q.id] = [];
-    for (var i = 0; i < q.options.length; i++) {
-      (function(opt) {
-        var item = document.createElement('div');
-        item.className = 'check-item'+(answers[q.id].indexOf(opt)!==-1?' checked':'');
-        var box = document.createElement('div'); box.className='check-box';
-        box.textContent = answers[q.id].indexOf(opt)!==-1?'V':'';
-        var span = document.createElement('span'); span.textContent=opt;
-        item.appendChild(box); item.appendChild(span);
-        var otherInput=null;
-        if(opt==='Inne'){
-          otherInput=document.createElement('input'); otherInput.type='text';
-          otherInput.className='check-other-input'+(answers[q.id].indexOf('Inne')!==-1?' show':'');
-          otherInput.placeholder='Opisz...'; otherInput.value=answers[q.id+'_other']||'';
-          otherInput.addEventListener('input',function(){answers[q.id+'_other']=otherInput.value;});
-          otherInput.addEventListener('click',function(e){e.stopPropagation();});
-        }
-        item.addEventListener('click', function() {
-          var arr=answers[q.id], pos=arr.indexOf(opt);
-          if(pos===-1){arr.push(opt);item.className='check-item checked';box.textContent='V';}
-          else{arr.splice(pos,1);item.className='check-item';box.textContent='';}
-          answers[q.id]=arr;
-          if(otherInput)otherInput.className=arr.indexOf('Inne')!==-1?'check-other-input show':'check-other-input';
-          updateStatuses();
-        });
-        wrap.appendChild(item); if(otherInput)wrap.appendChild(otherInput);
-      })(q.options[i]);
-    }
-    return wrap;
-  }
-
-  function buildRadio(q) {
-    var wrap = document.createElement('div'); wrap.className='radio-group';
-    var current=answers[q.id], items=[];
-    for (var i = 0; i < q.options.length; i++) {
-      (function(opt) {
-        var item=document.createElement('div');
-        item.className='radio-item'+(current===opt?' selected':'');
-        var dot=document.createElement('div'); dot.className='radio-dot';
-        var inner=document.createElement('div'); inner.className='radio-dot-inner';
-        dot.appendChild(inner);
-        var span=document.createElement('span'); span.textContent=opt;
-        item.appendChild(dot); item.appendChild(span);
-        item.addEventListener('click',function(){
-          for(var j=0;j<items.length;j++)items[j].className='radio-item';
-          item.className='radio-item selected'; setAnswer(q.id,opt);
-        });
-        items.push(item); wrap.appendChild(item);
-      })(q.options[i]);
-    }
-    return wrap;
-  }
-
-  function buildNum3(q) {
-    var wrap=document.createElement('div'); wrap.className='num-group';
-    var vals=answers[q.id]||[0,0,0]; if(!answers[q.id])answers[q.id]=[0,0,0];
-    for(var i=0;i<q.models.length;i++){
-      (function(idx){
-        var row=document.createElement('div'); row.className='num-row';
-        var lbl=document.createElement('label'); lbl.textContent=q.models[idx];
-        var controls=document.createElement('div'); controls.className='num-controls';
-        var minus=document.createElement('button'); minus.className='num-btn'; minus.textContent='-'; minus.type='button';
-        var valEl=document.createElement('div'); valEl.className='num-val'; valEl.textContent=String(vals[idx]);
-        var plus=document.createElement('button'); plus.className='num-btn'; plus.textContent='+'; plus.type='button';
-        var unit=document.createElement('span'); unit.className='num-unit'; unit.textContent=q.unit;
-        minus.addEventListener('click',function(){if(vals[idx]>0){vals[idx]--;valEl.textContent=String(vals[idx]);answers[q.id]=vals.slice();updateStatuses();}});
-        plus.addEventListener('click',function(){vals[idx]++;valEl.textContent=String(vals[idx]);answers[q.id]=vals.slice();updateStatuses();});
-        controls.appendChild(minus); controls.appendChild(valEl); controls.appendChild(plus);
-        row.appendChild(lbl); row.appendChild(controls); row.appendChild(unit); wrap.appendChild(row);
-      })(i);
-    }
-    return wrap;
-  }
-
-  function buildNum1(q) {
-    var wrap=document.createElement('div'); wrap.className='num-group';
-    var val=answers[q.id]||0; if(!answers[q.id])answers[q.id]=0; var step=q.step||1;
-    var row=document.createElement('div'); row.className='num-row';
-    var controls=document.createElement('div'); controls.className='num-controls';
-    var minus=document.createElement('button'); minus.className='num-btn'; minus.textContent='-'; minus.type='button';
-    var valEl=document.createElement('div'); valEl.className='num-val'; valEl.textContent=String(val);
-    var plus=document.createElement('button'); plus.className='num-btn'; plus.textContent='+'; plus.type='button';
-    var unit=document.createElement('span'); unit.className='num-unit'; unit.textContent=q.unit;
-    minus.addEventListener('click',function(){var v=answers[q.id];if(v>=step){v-=step;answers[q.id]=v;valEl.textContent=String(v);updateStatuses();}});
-    plus.addEventListener('click',function(){var v=answers[q.id];v+=step;answers[q.id]=v;valEl.textContent=String(v);updateStatuses();});
-    controls.appendChild(minus); controls.appendChild(valEl); controls.appendChild(plus);
-    row.appendChild(controls); row.appendChild(unit); wrap.appendChild(row); return wrap;
-  }
-
-  function buildText(q) {
-    var wrap=document.createElement('div');
-    var ta=document.createElement('textarea'); ta.className='text-input'; ta.placeholder=q.placeholder||''; ta.rows=3; ta.style.resize='vertical'; ta.value=answers[q.id]||'';
-    ta.addEventListener('input',function(){setAnswer(q.id,ta.value);});
-    wrap.appendChild(ta); return wrap;
-  }
-
-  function buildTextOutput() {
-    var name=document.getElementById('respondentName').value.trim();
-    var now=new Date(); var date=now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear()+' '+now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
-    var text='=== CHARLIE STUDIO - FORMULARZ MENTORSKI ===\n';
-    if(name)text+='Wypelniono przez: '+name+'\n';
-    text+='Data: '+date+'\n\n';
-    for(var c=0;c<categories.length;c++){
-      var cat=categories[c]; if(getCatStatus(cat)==='empty')continue;
-      text+='--- '+cat.title.toUpperCase()+' ---\n\n';
-      for(var qi=0;qi<cat.questions.length;qi++){
-        var q=cat.questions[qi], a=answers[q.id];
-        if(a===undefined||a===null||a==='')continue;
-        if(Array.isArray(a)&&a.length===0)continue;
-        text+=q.label+'\n';
-        if(q.type==='slider3'){for(var si=0;si<q.options.length;si++)text+='  '+q.options[si]+': '+a[si]+'%\n';}
-        else if(q.type==='check'){for(var ci=0;ci<a.length;ci++){if(a[ci]==='Inne'&&answers[q.id+'_other'])text+='  - Inne: '+answers[q.id+'_other']+'\n';else text+='  - '+a[ci]+'\n';}}
-        else if(q.type==='radio'){text+='  > '+a+'\n';}
-        else if(q.type==='num3'){for(var ni=0;ni<q.models.length;ni++)text+='  '+q.models[ni]+': '+a[ni]+' '+q.unit+'\n';}
-        else if(q.type==='num1'){text+='  > '+a+' '+q.unit+'\n';}
-        else if(q.type==='text'){text+='  > '+a+'\n';}
-        text+='\n';
-      }
-    }
-    text+='=== KONIEC FORMULARZA ===';
-    return text;
-  }
-
-  function showFallback(text) {
-    var btn=document.getElementById('copyBtn'), fallback=document.getElementById('copyFallback'), hint=document.getElementById('copyFallbackHint');
-    btn.textContent='Zaznacz tekst ponizej i skopiuj recznie'; btn.className='copy-all-btn copied';
-    setTimeout(function(){btn.textContent='Skopiuj wszystkie odpowiedzi';btn.className='copy-all-btn';},3000);
-    fallback.value=text; fallback.className='copy-fallback show'; hint.className='copy-fallback-hint show';
-    setTimeout(function(){fallback.focus();fallback.select();try{fallback.setSelectionRange(0,text.length);}catch(e){}},100);
-  }
-
-  function copyAll() {
-    var text=buildTextOutput(), btn=document.getElementById('copyBtn'), fallback=document.getElementById('copyFallback'), hint=document.getElementById('copyFallbackHint');
-    if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext){
-      navigator.clipboard.writeText(text).then(function(){
-        btn.textContent='Skopiowano!'; btn.className='copy-all-btn copied';
-        fallback.className='copy-fallback'; hint.className='copy-fallback-hint';
-        setTimeout(function(){btn.textContent='Skopiuj wszystkie odpowiedzi';btn.className='copy-all-btn';},2500);
-      },function(){showFallback(text);});
-    } else { showFallback(text); }
-  }
-
-  var cards=document.querySelectorAll('.cat-card');
-  for(var i=0;i<cards.length;i++){(function(card){card.addEventListener('click',function(){openCategory(card.getAttribute('data-cat'));});})(cards[i]);}
-  document.getElementById('backBtn').addEventListener('click',goToMenu);
-  document.getElementById('doneBtn').addEventListener('click',goToMenu);
-  document.getElementById('copyBtn').addEventListener('click',copyAll);
-  updateStatuses();
-})();
-</script>
 </body>
 </html>

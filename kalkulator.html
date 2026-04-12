@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charlie Studio — Kalkulator scenariuszy</title>
+<style>
+:root{--bg:#f5efe6;--card:#fffaf5;--card2:#fcf7f1;--ink:#1f2430;--muted:#6b7280;--line:#ddd2c4;--blue:#1b3a6b;--accent:#2352cc;--ok:#176b3a;--warn:#8a5a12;--bad:#a12c2c;--shadow:0 8px 24px rgba(42,34,26,.06)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}header{padding:32px 20px 12px;max-width:1280px;margin:0 auto}h1{margin:0 0 10px;font-size:clamp(28px,4vw,46px);color:var(--blue)}h2{font-size:clamp(20px,2vw,30px);color:var(--blue);margin:0 0 12px}h3{margin:0 0 6px;font-size:18px;color:var(--blue)}p.lead{max-width:960px;color:var(--muted)}main{max-width:1280px;margin:0 auto;padding:8px 20px 48px}.section{margin-top:28px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}.heroStat{font-size:34px;font-weight:800;color:var(--blue);line-height:1.1;margin:10px 0}.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.mini{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px}.mini .k{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.mini .v{font-size:18px;font-weight:700}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.control{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:16px}.control label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.control input,.control select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:white}.hint{font-size:13px;color:var(--muted);max-width:980px}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;vertical-align:top}th{background:#efe6db;color:var(--blue);position:sticky;top:0}.good{color:var(--ok);font-weight:700}.bad{color:var(--bad);font-weight:700}.mid{color:var(--warn);font-weight:700}.rowInput{display:grid;grid-template-columns:180px repeat(5,1fr);gap:10px;align-items:end}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#ede7df;color:var(--blue);font-size:12px;font-weight:700}.solver{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.solverResult{background:var(--card2);border:1px dashed var(--line);border-radius:14px;padding:12px}.solverResult .label{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}.solverResult .value{font-size:24px;font-weight:800;color:var(--blue)}.mono{font-variant-numeric:tabular-nums}.compact td,.compact th{padding:10px 8px}.note{font-size:13px;color:var(--muted)}@media(max-width:900px){.rowInput{grid-template-columns:1fr 1fr}.subgrid{grid-template-columns:1fr}}@media(max-width:760px){th,td{font-size:12px;padding:10px 8px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Charlie Studio — kalkulator scenariuszy</h1>
+<p class="lead">Robocze narzędzie do profilowania cen, czasu pracy i miksu sprzedaży dla Django, Dizzy i Mingus. Liczy marżę po materiałach i robociźnie, bez overheadu i podatków. W tej wersji dodałem uproszczone scenariusze, podsumowanie modeli oraz tryb odwrotny: ustawiasz docelową marżę i wybierasz, który parametr ma się dopasować.</p>
+</header>
+<main>
+<section class="grid" id="modelCards"></section>
+
+<section class="section panel">
+<h2>Założenia bazowe</h2>
+<div class="controls">
+<div class="control"><label>Django — cena EUR</label><input id="p_django" type="number" value="1200"></div>
+<div class="control"><label>Dizzy — cena EUR</label><input id="p_dizzy" type="number" value="2500"></div>
+<div class="control"><label>Mingus — cena EUR</label><input id="p_mingus" type="number" value="4500"></div>
+<div class="control"><label>Kurs EUR/PLN</label><input id="eurpln" type="number" value="4.28" step="0.01"></div>
+<div class="control"><label>Stawka robocizny PLN/h</label><input id="labor" type="number" value="80"></div>
+<div class="control"><label>Django — godziny</label><input id="h_django" type="number" value="35"></div>
+<div class="control"><label>Dizzy — godziny</label><input id="h_dizzy" type="number" value="35"></div>
+<div class="control"><label>Mingus — godziny</label><input id="h_mingus" type="number" value="50"></div>
+</div>
+<p class="hint">W kaflach na górze pokazuję 3 najważniejsze liczby dla każdego modelu: marżę na godzinę, marżę kwotową na parę i marżę procentową. To jest moim zdaniem najlepszy zestaw startowy: pierwsza mówi, czy model płaci za Wasz czas, druga ile realnie dokłada do firmy, a trzecia pokazuje bezpieczeństwo cenowe.</p>
+</section>
+
+<section class="section">
+<h2>Ekonomia jednostkowa</h2>
+<div id="unit"></div>
+</section>
+
+<section class="section panel">
+<h2>Tryb odwrotny — od docelowej marży</h2>
+<p class="hint">Twoja intuicja jest dobra, ale zamiast kolejnej zwykłej tabeli lepszy jest „solver”. Ustawiasz docelową marżę dla modelu i wskazujesz, który parametr ma się dopasować: cena, godziny albo koszt materiałów. Reszta zostaje stała. To pokazuje, co naprawdę musielibyście zmienić, żeby osiągnąć cel.</p>
+<div class="solver">
+<div class="control"><label>Model</label><select id="solver_model"><option>Django</option><option>Dizzy</option><option>Mingus</option></select></div>
+<div class="control"><label>Docelowa marża %</label><input id="solver_margin" type="number" value="20" step="1"></div>
+<div class="control"><label>Parametr do dopasowania</label><select id="solver_mode"><option value="price">Cena EUR</option><option value="hours">Godziny pracy</option><option value="materials">Koszt materiałów PLN</option></select></div>
+</div>
+<div class="grid" style="margin-top:14px" id="solverResults"></div>
+</section>
+
+<section class="section panel">
+<h2>Scenariusze miesięczne</h2>
+<p class="hint">Najpierw ustaw swój własny scenariusz, a tuż pod nim zobaczysz ten sam układ kolumn oraz listę gotowych scenariuszy. Dzięki temu porównanie odbywa się pionowo, kolumna do kolumny, na jednym ekranie.</p>
+<div class="controls">
+<div class="control"><label>Django</label><input id="custom_django" type="number" value="3" min="0"></div>
+<div class="control"><label>Dizzy</label><input id="custom_dizzy" type="number" value="1" min="0"></div>
+<div class="control"><label>Mingus</label><input id="custom_mingus" type="number" value="2" min="0"></div>
+</div>
+<div style="margin-top:12px" id="scenarios"></div>
+</section>
+</main>
+<script>
+const base = {
+ Django:{materials:1897,hours:35,price:1200},
+ Dizzy:{materials:3934,hours:35,price:2500},
+ Mingus:{materials:5015,hours:50,price:4500}
+};
+const scenarios = [
+ {label:'3/1/1', name:'Mix środkowy', counts:{Django:3,Dizzy:1,Mingus:1}},
+ {label:'2/2/1', name:'Mix środkowy', counts:{Django:2,Dizzy:2,Mingus:1}},
+ {label:'5/0/0', name:'Ekstremum: tylko Django', counts:{Django:5,Dizzy:0,Mingus:0}},
+ {label:'0/2/0', name:'Ekstremum: tylko Dizzy', counts:{Django:0,Dizzy:2,Mingus:0}},
+ {label:'0/0/1', name:'Ekstremum: 1 Mingus', counts:{Django:0,Dizzy:0,Mingus:1}},
+ {label:'0/0/2', name:'Ekstremum: 2 Mingus', counts:{Django:0,Dizzy:0,Mingus:2}},
+ {label:'4/1/0', name:'Django-heavy', counts:{Django:4,Dizzy:1,Mingus:0}},
+ {label:'5/3/2', name:'Mix 50/30/20 przy 10 parach', counts:{Django:5,Dizzy:3,Mingus:2}},
+ {label:'7/2/1', name:'Mix 70/20/10 przy 10 parach', counts:{Django:7,Dizzy:2,Mingus:1}},
+ {label:'4/4/2', name:'Mix 40/40/20 przy 10 parach', counts:{Django:4,Dizzy:4,Mingus:2}}
+];
+function fmt(n,d=0){return new Intl.NumberFormat('pl-PL',{minimumFractionDigits:d,maximumFractionDigits:d}).format(n)}
+function pct(n){return fmt(n,1)+'%'}
+function cls(v,low,mid){return v<low?'bad':(v<mid?'mid':'good')}
+function getModels(){
+ const eur=parseFloat(document.getElementById('eurpln').value)||4.28;
+ const labor=parseFloat(document.getElementById('labor').value)||80;
+ const m={
+  Django:{materials:base.Django.materials,hours:parseFloat(document.getElementById('h_django').value)||35,price:parseFloat(document.getElementById('p_django').value)||1200},
+  Dizzy:{materials:base.Dizzy.materials,hours:parseFloat(document.getElementById('h_dizzy').value)||35,price:parseFloat(document.getElementById('p_dizzy').value)||2500},
+  Mingus:{materials:base.Mingus.materials,hours:parseFloat(document.getElementById('h_mingus').value)||50,price:parseFloat(document.getElementById('p_mingus').value)||4500},
+ };
+ Object.keys(m).forEach(k=>{
+   m[k].revenue=m[k].price*eur;
+   m[k].laborCost=m[k].hours*labor;
+   m[k].cost=m[k].materials+m[k].laborCost;
+   m[k].contribution=m[k].revenue-m[k].cost;
+   m[k].marginPct=m[k].revenue?m[k].contribution/m[k].revenue*100:0;
+   m[k].contributionPerHour=m[k].hours?m[k].contribution/m[k].hours:0;
+ });
+ m._meta={eur,labor};
+ return m;
+}
+function renderCards(m){
+ const order=['Django','Dizzy','Mingus'];
+ document.getElementById('modelCards').innerHTML = order.map(name=>{
+   const x=m[name];
+   return `<div class="card">
+     <div class="pill">${name}</div>
+     <div class="heroStat mono ${cls(x.contributionPerHour,30,120)}">${fmt(x.contributionPerHour,1)} PLN/h</div>
+     <div class="note">Marża na godzinę</div>
+     <div class="subgrid">
+       <div class="mini"><div class="k">Marża na parę</div><div class="v mono">${fmt(x.contribution)} PLN</div></div>
+       <div class="mini"><div class="k">Marża procentowa</div><div class="v mono">${pct(x.marginPct)}</div></div>
+     </div>
+     <div class="subgrid">
+       <div class="mini"><div class="k">Cena</div><div class="v mono">${fmt(x.price)} EUR</div></div>
+       <div class="mini"><div class="k">Godziny</div><div class="v mono">${fmt(x.hours)} h</div></div>
+     </div>
+   </div>`
+ }).join('');
+}
+function renderUnit(m){
+ const rows=['Django','Dizzy','Mingus'].map(k=>{
+   const x=m[k];
+   return `<tr><td>${k}</td><td class="mono">${fmt(x.price)} EUR</td><td class="mono">${fmt(x.revenue)} PLN</td><td class="mono">${fmt(x.materials)} PLN</td><td class="mono">${fmt(x.laborCost)} PLN</td><td class="mono">${fmt(x.cost)} PLN</td><td class="mono">${fmt(x.contribution)} PLN</td><td class="mono ${cls(x.contributionPerHour,30,120)}">${fmt(x.contributionPerHour,1)} PLN/h</td><td class="mono">${pct(x.marginPct)}</td></tr>`;
+ }).join('');
+ document.getElementById('unit').innerHTML = `<table class="compact"><thead><tr><th>Model</th><th>Cena</th><th>Przychód</th><th>Materiały</th><th>Robocizna</th><th>Koszt łączny</th><th>Marża kwotowa</th><th>Marża / h</th><th>Marża %</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function renderSolver(m){
+ const model=document.getElementById('solver_model').value;
+ const target=(parseFloat(document.getElementById('solver_margin').value)||20)/100;
+ const mode=document.getElementById('solver_mode').value;
+ const x=m[model];
+ const revenue=x.revenue, cost=x.cost;
+ let blocks='';
+ if(mode==='price'){
+   const targetRevenue = cost/(1-target);
+   const targetEur = targetRevenue/m._meta.eur;
+   blocks += `<div class="solverResult"><div class="label">Wymagana cena</div><div class="value mono">${fmt(targetEur,0)} EUR</div><div class="note">Przy tych samych kosztach i godzinach</div></div>`;
+   blocks += `<div class="solverResult"><div class="label">Zmiana ceny</div><div class="value mono">${fmt(targetEur-x.price,0)} EUR</div><div class="note">Różnica vs obecna cena</div></div>`;
+ }
+ if(mode==='hours'){
+   const maxCost = revenue*(1-target);
+   const allowedLabor = maxCost - x.materials;
+   const allowedHours = allowedLabor / m._meta.labor;
+   blocks += `<div class="solverResult"><div class="label">Wymagane godziny</div><div class="value mono">${fmt(allowedHours,1)} h</div><div class="note">Przy tej samej cenie i materiałach</div></div>`;
+   blocks += `<div class="solverResult"><div class="label">Godziny do zdjęcia</div><div class="value mono">${fmt(x.hours-allowedHours,1)} h</div><div class="note">Tyle trzeba urwać z procesu</div></div>`;
+ }
+ if(mode==='materials'){
+   const maxCost = revenue*(1-target);
+   const allowedMaterials = maxCost - x.laborCost;
+   blocks += `<div class="solverResult"><div class="label">Docelowy koszt materiałów</div><div class="value mono">${fmt(allowedMaterials,0)} PLN</div><div class="note">Przy tej samej cenie i godzinach</div></div>`;
+   blocks += `<div class="solverResult"><div class="label">Redukcja materiałów</div><div class="value mono">${fmt(x.materials-allowedMaterials,0)} PLN</div><div class="note">Tyle trzeba zejść z materiałów</div></div>`;
+ }
+ blocks += `<div class="solverResult"><div class="label">Obecna marża</div><div class="value mono">${pct(x.marginPct)}</div><div class="note">Punkt wyjścia dla ${model}</div></div>`;
+ blocks += `<div class="solverResult"><div class="label">Marża na parę dziś</div><div class="value mono">${fmt(x.contribution)} PLN</div><div class="note">Bez overheadu i podatków</div></div>`;
+ document.getElementById('solverResults').innerHTML = blocks;
+}
+function evalScenario(m, counts){
+ const revenue = counts.Django*m.Django.revenue + counts.Dizzy*m.Dizzy.revenue + counts.Mingus*m.Mingus.revenue;
+ const hours = counts.Django*m.Django.hours + counts.Dizzy*m.Dizzy.hours + counts.Mingus*m.Mingus.hours;
+ const contribution = counts.Django*m.Django.contribution + counts.Dizzy*m.Dizzy.contribution + counts.Mingus*m.Mingus.contribution;
+ const pairs = counts.Django + counts.Dizzy + counts.Mingus;
+ const marginPct = revenue?contribution/revenue*100:0;
+ const cph = hours?contribution/hours:0;
+ return {revenue,hours,contribution,pairs,marginPct,cph};
+}
+function renderScenarios(m){
+ const rows=scenarios.map(s=>{
+   const r=evalScenario(m,s.counts);
+   return `<tr><td><strong>${s.label}</strong><br><span class="note">${s.name}</span></td><td class="mono">${r.pairs}</td><td class="mono">${fmt(r.revenue)} PLN</td><td class="mono">${fmt(r.hours)} h</td><td class="mono ${cls(r.contribution,1000,6000)}">${fmt(r.contribution)} PLN</td><td class="mono ${cls(r.cph,30,120)}">${fmt(r.cph,1)} PLN/h</td><td class="mono">${pct(r.marginPct)}</td></tr>`;
+ }).join('');
+ const customD=parseInt(document.getElementById('custom_django').value||0,10)||0;
+ const customDi=parseInt(document.getElementById('custom_dizzy').value||0,10)||0;
+ const customM=parseInt(document.getElementById('custom_mingus').value||0,10)||0;
+ const customCounts={Django:Math.max(0,customD),Dizzy:Math.max(0,customDi),Mingus:Math.max(0,customM)};
+ const cr=evalScenario(m,customCounts);
+ const customRow = `<tr style="background:#f3ecdf"><td><strong>${customCounts.Django}/${customCounts.Dizzy}/${customCounts.Mingus}</strong><br><span class="note">Własny scenariusz</span></td><td class="mono">${cr.pairs}</td><td class="mono">${fmt(cr.revenue)} PLN</td><td class="mono">${fmt(cr.hours)} h</td><td class="mono ${cls(cr.contribution,1000,6000)}">${fmt(cr.contribution)} PLN</td><td class="mono ${cls(cr.cph,30,120)}">${fmt(cr.cph,1)} PLN/h</td><td class="mono">${pct(cr.marginPct)}</td></tr>`;
+ document.getElementById('scenarios').innerHTML = `<table class="compact"><thead><tr><th>Scenariusz D/Di/M</th><th>Suma par</th><th>Przychód</th><th>Godziny</th><th>Marża kwotowa</th><th>Marża / h</th><th>Marża %</th></tr></thead><tbody>${customRow}${rows}</tbody></table>`;
+}
+function renderCustom(m){
+ const d=parseInt(document.getElementById('custom_django').value||0,10);
+ const di=parseInt(document.getElementById('custom_dizzy').value||0,10);
+ const mi=parseInt(document.getElementById('custom_mingus').value||0,10);
+ const counts={Django:Math.max(0,d||0),Dizzy:Math.max(0,di||0),Mingus:Math.max(0,mi||0)};
+ const r=evalScenario(m,counts);
+ document.getElementById('customScenarioRow').innerHTML = `<tr><td><strong>${counts.Django}/${counts.Dizzy}/${counts.Mingus}</strong><br><span class="note">Własny scenariusz</span></td><td class="mono">${r.pairs}</td><td class="mono">${fmt(r.revenue)} PLN</td><td class="mono">${fmt(r.hours)} h</td><td class="mono ${cls(r.contribution,1000,6000)}">${fmt(r.contribution)} PLN</td><td class="mono ${cls(r.cph,30,120)}">${fmt(r.cph,1)} PLN/h</td><td class="mono">${pct(r.marginPct)}</td></tr>`;
+}
+function renderAll(){
+ const m=getModels();
+ renderCards(m); renderUnit(m); renderSolver(m); renderScenarios(m); renderCustom(m);
+}
+document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',renderAll));
+renderAll();
+</script>
+</body>
+</html>
