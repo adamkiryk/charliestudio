@@ -98,7 +98,7 @@ main {
 
 .page-card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -122,6 +122,7 @@ main {
 
 .card-icon {
   width: 48px; height: 48px; min-width: 48px;
+  flex-shrink: 0;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -143,9 +144,7 @@ main {
   font-weight: 700;
   color: var(--navy);
   margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 .card-desc {
@@ -161,6 +160,7 @@ main {
   border-radius: 20px;
   white-space: nowrap;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .tag-live { background: var(--green-bg); color: var(--green); }
@@ -172,6 +172,8 @@ main {
   font-size: 18px;
   flex-shrink: 0;
   margin-left: 4px;
+  align-self: flex-start;
+  margin-top: 2px;
 }
 
 /* ── DIVIDER ── */
